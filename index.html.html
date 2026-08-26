@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, m6ximum-scale=1.0, user-scalable=no">
+  <title>精神神経医学 英単2026</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* 3Dカード反転スタイル */
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+    .transform-style-3d {
+      transform-style: preserve-3d;
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+
+    /* レンジスライダーのカスタマイズ */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
+      border-radius: 9999px;
+      background: #e2e8f0;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2.5px solid #4f46e5;
+      box-shadow: 0 2px 5px rgba(79, 70, 229, 0.25);
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2.5px solid #4f46e5;
+      box-shadow: 0 2px 5px rgba(79, 70, 229, 0.25);
+      cursor: pointer;
+    }
+
+    /* スクロールバー */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f8fafc;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-800 min-h-screen flex justify-center items-start sm:py-6 p-0 select-none">
+
+  <!-- メインコンテナ -->
+  <div class="w-full max-w-md bg-white sm:rounded-3xl sm:shadow-2xl sm:border sm:border-slate-100 overflow-hidden flex flex-col min-h-screen sm:min-h-[780px]">
+
+    <!-- 1. ヘッダーエリア -->
+    <header class="bg-[#4f46e5] text-white px-4 py-3.5 flex items-center justify-between shadow-sm relative z-10">
+      <div class="flex items-center gap-2">
+        <div class="p-1.5 bg-white/15 rounded-xl backdrop-blur-sm">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+        </div>
+        <h1 class="text-sm sm:text-base font-extrabold tracking-tight">精神神経医学 必修英単語2025</h1>
+      </div>
+
+      <div class="flex items-center gap-1.5">
+        <!-- 一覧モーダルボタン -->
+        <button id="openListModalBtn" class="bg-white/15 hover:bg-white/25 active:scale-95 transition-all text-white p-1.5 rounded-full" title="単語一覧を開く">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" />
+          </svg>
+        </button>
+        <!-- Saved バッジ -->
+        <div id="saveBadge" class="bg-white/20 backdrop-blur-sm text-white text-[11px] px-2.5 py-1 rounded-full flex items-center gap-1 font-semibold">
+          <svg class="w-3 h-3 text-emerald-300" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+          </svg>
+          <span id="saveStatusText">Saved</span>
+        </div>
+        <!-- カウンターバッジ -->
+        <div id="counterBadge" class="bg-white/25 backdrop-blur-sm text-white text-xs px-2.5 py-1 rounded-full font-bold">
+          1 / 245
+        </div>
+      </div>
+    </header>
+
+    <!-- プログレスバー -->
+    <div class="w-full bg-slate-100 h-1">
+      <div id="progressBar" class="bg-indigo-500 h-1 transition-all duration-300" style="width: 0.4%;"></div>
+    </div>
+
+    <!-- コンテンツメイン -->
+    <main class="flex-1 p-3.5 flex flex-col justify-between gap-3">
+
+      <!-- 2. コントロールバー -->
+      <section class="grid grid-cols-12 gap-2 items-center">
+        <!-- 絞り込みフィルター選択（出題年・全件） -->
+        <div class="col-span-6 relative">
+          <select id="filterSelect" class="w-full appearance-none bg-white border border-slate-200 hover:border-indigo-300 rounded-xl px-3 py-2 text-xs font-bold text-slate-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 cursor-pointer pr-7">
+            <option value="all">すべて (全245語)</option>
+            <option value="has_years">🔥 過去問出題歴あり</option>
+            <option value="frequent">⭐ 超頻出 (2回以上出題)</option>
+            <option value="y24">2024年 出題 ('24)</option>
+            <option value="y23">2023年 出題 ('23)</option>
+            <option value="y22">2022年 出題 ('22)</option>
+            <option value="y21">2021年 出題 ('21)</option>
+            <option value="y20">2020年 出題 ('20)</option>
+            <option value="y19">2019年 出題 ('19)</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- ✓Only トグルボタン -->
+        <button id="checkedOnlyBtn" class="col-span-3 h-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 rounded-xl px-1.5 py-2 text-xs font-bold flex items-center justify-center gap-1 shadow-sm transition-all">
+          <span id="checkOnlyIcon" class="text-xs">☐</span>
+          <span>✓Only</span>
+        </button>
+
+        <!-- 🔄 OFF/ON トグルボタン (シャッフル) -->
+        <button id="shuffleToggleBtn" class="col-span-3 h-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 rounded-xl px-1.5 py-2 text-xs font-bold flex items-center justify-center gap-1 shadow-sm transition-all">
+          <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          <span id="shuffleStatusText">OFF</span>
+        </button>
+      </section>
+
+      <!-- 3. オートプレイ設定バー -->
+      <section class="border border-slate-200/90 rounded-2xl p-3 bg-white shadow-sm flex flex-col gap-2">
+        <div class="flex items-center justify-between text-xs">
+          <div class="flex items-center gap-1 text-slate-500 font-bold">
+            <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span>オートプレイ設定</span>
+          </div>
+
+          <!-- 方向切り替え (日→英 / 英→日) -->
+          <button id="directionToggleBtn" class="flex items-center gap-1 text-slate-600 font-bold hover:text-indigo-600 transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+            </svg>
+            <span id="directionText">英 → 日</span>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-3 pt-0.5">
+          <!-- 再生/停止ボタン -->
+          <button id="autoPlayBtn" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200/80 rounded-xl px-4 py-1.5 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm active:scale-95 shrink-0">
+            <svg id="autoPlayIcon" class="w-3 h-3 fill-current" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            <span id="autoPlayBtnText">再生</span>
+          </button>
+
+          <!-- スライダー + 秒数表示 -->
+          <div class="flex-1 flex flex-col justify-center">
+            <span id="intervalLabel" class="text-[10px] text-slate-400 font-medium leading-none mb-1">日本語表示: 2.5秒</span>
+            <input id="intervalSlider" type="range" min="1" max="7" value="2.5" step="0.5" class="w-full cursor-pointer">
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. メインフラッシュカード (添付画像準拠UI) -->
+      <section class="perspective-1000 my-0.5">
+        <div id="flashcard" class="relative w-full h-[260px] sm:h-[280px] transform-style-3d transition-transform duration-500 cursor-pointer">
+          
+          <!-- カード表面 (白背景・中央上部言語・中央単語・下部出題バッジ) -->
+          <div class="absolute inset-0 w-full h-full bg-white rounded-3xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 flex flex-col justify-between items-center backface-hidden">
+            <!-- 上部：言語ラベル（中央配置） -->
+            <div class="flex items-center justify-center gap-1.5">
+              <span id="cardLangFront" class="text-xs text-slate-400 font-bold tracking-wider">英語</span>
+              <!-- 発音アイコン（英語側の場合） -->
+              <button id="ttsBtnFront" class="text-slate-500 hover:text-indigo-600 transition-colors inline-flex items-center p-0.5 rounded" title="発音を聞く">
+                <span class="text-base leading-none">🔊</span>
+              </button>
+            </div>
+            
+            <!-- 中央：単語テキスト（大きく太字、中央揃え） -->
+            <div class="flex flex-col items-center justify-center flex-1 px-2 text-center w-full">
+              <h2 id="cardTextFront" class="text-3xl sm:text-4xl font-extrabold text-[#1e293b] tracking-tight leading-snug break-words">
+                abuse
+              </h2>
+            </div>
+
+            <!-- 下部：出題年度バッジ群（中央横並び配置） -->
+            <div id="yearBadgesFront" class="flex items-center justify-center gap-2 flex-wrap min-h-[28px]">
+              <!-- JSで動的挿入 (例: '24 出題, '23 出題) -->
+            </div>
+          </div>
+
+          <!-- カード裏面 (淡いラベンダー背景・中央上部言語＆スピーカー・中央単語・下部出題バッジ) -->
+          <div class="absolute inset-0 w-full h-full bg-[#fbf9fe] rounded-3xl border border-purple-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.05)] p-6 flex flex-col justify-between items-center backface-hidden rotate-y-180">
+            <!-- 上部：言語ラベル ＆ スピーカーアイコン（中央配置） -->
+            <div class="flex items-center justify-center gap-1.5">
+              <span id="cardLangBack" class="text-xs text-slate-500 font-bold tracking-wider">日本語</span>
+              <!-- 発音アイコン -->
+              <button id="ttsBtnBack" class="text-slate-500 hover:text-indigo-600 transition-colors inline-flex items-center p-0.5 rounded" title="英語の発音を聞く">
+                <span class="text-base leading-none">🔊</span>
+              </button>
+            </div>
+            
+            <!-- 中央：単語テキスト（大きく太字、中央揃え） -->
+            <div class="flex flex-col items-center justify-center flex-1 px-2 text-center w-full">
+              <h2 id="cardTextBack" class="text-3xl sm:text-4xl font-extrabold text-[#1e293b] tracking-tight leading-snug break-words">
+                虐待
+              </h2>
+            </div>
+
+            <!-- 下部：出題年度バッジ群（中央横並び配置） -->
+            <div id="yearBadgesBack" class="flex items-center justify-center gap-2 flex-wrap min-h-[28px]">
+              <!-- JSで動的挿入 -->
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 5. 「分からない単語としてチェック」ボタン -->
+      <section>
+        <button id="checkCardBtn" class="w-full rounded-2xl py-3.5 px-4 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 border-2 transition-all shadow-sm active:scale-[0.99] border-slate-200 bg-white text-slate-600 hover:border-slate-300">
+          <svg class="w-4 h-4 text-slate-400" id="cardCheckIcon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="3" ry="3"></rect>
+          </svg>
+          <span id="cardCheckText">分からない単語としてチェック</span>
+        </button>
+      </section>
+
+      <!-- 6. ナビゲーションフッター -->
+      <footer class="flex items-center gap-2 pt-1 pb-1">
+        <!-- 前へボタン -->
+        <button id="prevBtn" class="w-[32%] py-3.5 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs sm:text-sm shadow-sm active:scale-95 transition-all flex items-center justify-center gap-1">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          <span>前へ</span>
+        </button>
+
+        <!-- リセット・反転初期化ボタン -->
+        <button id="resetFlipBtn" title="表裏をリセット" class="w-12 h-[48px] rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 font-bold shadow-sm active:scale-95 transition-all flex items-center justify-center shrink-0">
+          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+        </button>
+
+        <!-- 次へボタン -->
+        <button id="nextBtn" class="flex-1 py-3.5 rounded-2xl bg-[#4f46e5] hover:bg-[#4338ca] text-white font-bold text-xs sm:text-sm shadow-md shadow-indigo-200 active:scale-95 transition-all flex items-center justify-center gap-1">
+          <span>次へ</span>
+          <svg class="w-4 h-4 text-white/90" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- 単語一覧モーダル -->
+  <div id="listModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex justify-center items-end sm:items-center hidden opacity-0 transition-opacity duration-200">
+    <div class="bg-white w-full max-w-lg rounded-t-3xl sm:rounded-3xl max-h-[88vh] flex flex-col shadow-2xl overflow-hidden">
+      <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-indigo-50/60">
+        <div class="flex items-center gap-2">
+          <span class="text-base font-black text-slate-800">精神神経医学 必修英単語一覧</span>
+          <span id="modalListCount" class="text-xs font-bold text-indigo-600 bg-indigo-100 px-2 py-0.5 rounded-full">245語</span>
+        </div>
+        <button id="closeListModalBtn" class="p-1 text-slate-400 hover:text-slate-600 rounded-full">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- 検索入力 -->
+      <div class="p-3 border-b border-slate-100 bg-white">
+        <div class="relative">
+          <input id="modalSearchInput" type="text" placeholder="英語または日本語で検索..." class="w-full bg-slate-100 text-xs rounded-xl pl-8 pr-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 font-medium">
+          <svg class="w-4 h-4 text-slate-400 absolute left-2.5 top-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- リストコンテナ -->
+      <div id="modalWordContainer" class="flex-1 overflow-y-auto p-3 divide-y divide-slate-100 text-xs"></div>
+    </div>
+  </div>
+
+  <!-- JavaScript アプリケーションロジック -->
+  <script>
+    /**
+     * PDFから抽出した東邦大学精神神経医学必修英単語マスターデータ（全245語）
+     */
+    const masterWordList = [
+      { id: 1, en: "Anton syndrome", ja: "アントン症候群", years: [] },
+      { id: 2, en: "abuse", ja: "虐待", years: ["24", "23"] },
+      { id: 3, en: "acalculia", ja: "失算", years: ["19"] },
+      { id: 4, en: "acute and transient psychotic disorder", ja: "急性一過性精神病性障害", years: [] },
+      { id: 5, en: "acute confusional state", ja: "急性錯乱状態", years: [] },
+      { id: 6, en: "addiction", ja: "嗜癖", years: ["21", "20"] },
+      { id: 7, en: "adherence", ja: "アドヒアランス", years: [] },
+      { id: 8, en: "affective disorder", ja: "感情障害", years: ["24", "23", "22", "21", "20", "19"] },
+      { id: 9, en: "agonist", ja: "作動物質", years: [] },
+      { id: 10, en: "alcohol dependence", ja: "アルコール依存", years: [] },
+      { id: 11, en: "alcohol withdrawal delirium", ja: "アルコール離脱せん妄", years: ["21", "20"] },
+      { id: 12, en: "alcoholic psychosis", ja: "アルコール精神病", years: [] },
+      { id: 13, en: "alcoholics anonymous (AA)", ja: "アルコール患者匿名会", years: [] },
+      { id: 14, en: "alcoholism", ja: "アルコール症", years: [] },
+      { id: 15, en: "alexia", ja: "失読", years: [] },
+      { id: 16, en: "alexithymia", ja: "失感情症、アレキシサイミア", years: [] },
+      { id: 17, en: "alpha wave", ja: "アルファ波", years: [] },
+      { id: 18, en: "Alzheimer's disease", ja: "アルツハイマー病", years: [] },
+      { id: 19, en: "ambivalence", ja: "両価性", years: [] },
+      { id: 20, en: "Amentia 【独】", ja: "アメンチア", years: [] },
+      { id: 21, en: "amphetamine", ja: "アンフェタミン", years: [] },
+      { id: 22, en: "amphetamine psychosis", ja: "覚醒剤精神病", years: [] },
+      { id: 23, en: "anniversary reaction", ja: "記念日反応", years: [] },
+      { id: 24, en: "anorexia nervosa", ja: "神経性無食欲症", years: ["21", "20"] },
+      { id: 25, en: "anosognosia", ja: "病態失認", years: [] },
+      { id: 26, en: "antagonist", ja: "拮抗物質", years: ["21", "20"] },
+      { id: 27, en: "anticipatory anxiety", ja: "予期不安", years: ["24", "23"] },
+      { id: 28, en: "aphonia", ja: "失声", years: [] },
+      { id: 29, en: "apallic syndrome", ja: "失外套症候群", years: [] },
+      { id: 30, en: "Asperger syndrome", ja: "アスペルガー症候群", years: [] },
+      { id: 31, en: "attachment disorder of childhood", ja: "小児期の愛着障害", years: [] },
+      { id: 32, en: "ataxia", ja: "運動失調", years: [] },
+      { id: 33, en: "attention-deficit/hyperactivity disorder", ja: "注意欠如・多動性障害(注意欠如・多動症)", years: [] },
+      { id: 34, en: "athetosis", ja: "アテトーゼ", years: [] },
+      { id: 35, en: "audible thoughts", ja: "考想化声", years: [] },
+      { id: 36, en: "auditory hallucination", ja: "幻聴", years: ["21", "20", "19"] },
+      { id: 37, en: "autism", ja: "自閉", years: [] },
+      { id: 38, en: "autism spectrum disorder", ja: "自閉症スペクトラム障害(自閉スペクトラム症)", years: [] },
+      { id: 39, en: "bipolar disorders", ja: "双極性障害", years: [] },
+      { id: 40, en: "blunted affect", ja: "感情鈍麻", years: ["23"] },
+      { id: 41, en: "borderline intellectual functioning", ja: "境界知能", years: [] },
+      { id: 42, en: "brain death", ja: "脳死", years: [] },
+      { id: 43, en: "bulimia nervosa", ja: "神経性大食症", years: [] },
+      { id: 44, en: "battered-child syndrome", ja: "被虐待児症候群", years: [] },
+      { id: 45, en: "Capgras syndrome", ja: "カプグラ症候群", years: [] },
+      { id: 46, en: "catalepsy", ja: "カタレプシー", years: [] },
+      { id: 47, en: "catatonia", ja: "緊張病", years: ["22", "21"] },
+      { id: 48, en: "child psychiatry", ja: "児童精神医学", years: [] },
+      { id: 49, en: "childhood autism", ja: "小児自閉症", years: [] },
+      { id: 50, en: "chocked disc", ja: "うっ血乳頭", years: [] },
+      { id: 51, en: "circadian rhythm", ja: "概日リズム", years: ["21", "20"] },
+      { id: 52, en: "clonic convulsion", ja: "間代けいれん", years: [] },
+      { id: 53, en: "comorbidity", ja: "共存症", years: [] },
+      { id: 54, en: "compulsive act", ja: "強迫行為", years: [] },
+      { id: 55, en: "conduct disorder", ja: "素行障害(素行症)", years: [] },
+      { id: 56, en: "confabulation", ja: "作話", years: ["24", "23"] },
+      { id: 57, en: "confusion", ja: "錯乱", years: ["22", "21"] },
+      { id: 58, en: "consciousness", ja: "意識", years: [] },
+      { id: 59, en: "counter-transference", ja: "逆転移", years: ["21", "20"] },
+      { id: 60, en: "conversion disorder", ja: "転換性障害", years: [] },
+      { id: 61, en: "coping", ja: "対処", years: ["22", "21", "20"] },
+      { id: 62, en: "coprolalia", ja: "汚言", years: [] },
+      { id: 63, en: "criminal responsibility", ja: "責任能力", years: [] },
+      { id: 64, en: "defect state", ja: "欠陥状態", years: [] },
+      { id: 65, en: "déjà vu", ja: "既視感", years: [] },
+      { id: 66, en: "delusion", ja: "妄想", years: [] },
+      { id: 67, en: "delusion of control", ja: "させられ体験(作為体験)", years: ["19"] },
+      { id: 68, en: "delusion of guilt", ja: "罪業妄想", years: [] },
+      { id: 69, en: "delusion of observation", ja: "注察妄想", years: ["22", "21", "20"] },
+      { id: 70, en: "delusion of persecution", ja: "被害妄想", years: [] },
+      { id: 71, en: "delusion of poisoning", ja: "被毒妄想", years: [] },
+      { id: 72, en: "delusion of reference", ja: "関係妄想", years: ["24", "23"] },
+      { id: 73, en: "delusional disorder", ja: "妄想性障害", years: [] },
+      { id: 74, en: "delusional mood", ja: "妄想気分", years: [] },
+      { id: 75, en: "delusional perception", ja: "妄想知覚", years: ["19"] },
+      { id: 76, en: "depressive episode", ja: "うつ病エピソード", years: [] },
+      { id: 77, en: "dependence", ja: "依存", years: [] },
+      { id: 78, en: "depersonalization", ja: "離人症", years: [] },
+      { id: 79, en: "depression", ja: "うつ病", years: [] },
+      { id: 80, en: "depressive mood", ja: "抑うつ気分", years: [] },
+      { id: 81, en: "disorientation", ja: "失見当識", years: [] },
+      { id: 82, en: "dissociation", ja: "解離", years: [] },
+      { id: 83, en: "dissociative amnesia", ja: "解離性健忘", years: [] },
+      { id: 84, en: "dissociative disorder", ja: "解離性障害", years: [] },
+      { id: 85, en: "dissociative fugue", ja: "解離性遁走", years: ["24", "23"] },
+      { id: 86, en: "dissociative hysteria", ja: "解離性ヒステリー", years: [] },
+      { id: 87, en: "diurnal changes", ja: "日内変動", years: [] },
+      { id: 88, en: "domestic violence", ja: "家庭内暴力", years: [] },
+      { id: 89, en: "duration of untreated psychosis (DUP)", ja: "精神病未治療期間", years: ["24"] },
+      { id: 90, en: "dysarthria", ja: "構語障害", years: [] },
+      { id: 91, en: "dysphagia", ja: "嚥下障害", years: ["20"] },
+      { id: 92, en: "dysthymia", ja: "気分変調症", years: [] },
+      { id: 93, en: "early psychosis", ja: "早期精神病", years: [] },
+      { id: 94, en: "echolalia", ja: "反響言語", years: [] },
+      { id: 95, en: "elective mutism", ja: "選択性緘黙", years: ["24", "23"] },
+      { id: 96, en: "emotional incontinence", ja: "情動失禁", years: [] },
+      { id: 97, en: "empathy", ja: "感情移入", years: [] },
+      { id: 98, en: "episodic memory", ja: "エピソード記憶", years: [] },
+      { id: 99, en: "euthanasia", ja: "安楽死", years: [] },
+      { id: 100, en: "expressed emotion (EE)", ja: "感情表出", years: [] },
+      { id: 101, en: "factitious disorder", ja: "虚偽性障害", years: [] },
+      { id: 102, en: "first rank symptoms", ja: "一級症状", years: [] },
+      { id: 103, en: "flattening of affect", ja: "情動平板化", years: ["19"] },
+      { id: 104, en: "flight of ideas", ja: "観念奔逸", years: [] },
+      { id: 105, en: "forensic psychiatry", ja: "司法精神医学", years: [] },
+      { id: 106, en: "fugue", ja: "遁走", years: [] },
+      { id: 107, en: "Ganser syndrome", ja: "ガンザー症候群", years: [] },
+      { id: 108, en: "generalized anxiety disorder", ja: "全般性不安障害", years: [] },
+      { id: 109, en: "gender dysphoria", ja: "性別違和", years: ["24", "23"] },
+      { id: 110, en: "gender identity", ja: "性同一性", years: ["20"] },
+      { id: 111, en: "(Gilles de la) Tourette syndrome", ja: "(ジル・ドゥ・ラ・) トゥレット症候群", years: [] },
+      { id: 112, en: "hallucination", ja: "幻覚", years: ["21"] },
+      { id: 113, en: "hallucinogen", ja: "幻覚剤", years: [] },
+      { id: 114, en: "handedness", ja: "利き手", years: [] },
+      { id: 115, en: "hepatic encephalopathy", ja: "肝性脳症", years: [] },
+      { id: 116, en: "hyperkinetic disorder", ja: "多動性障害", years: ["23", "19"] },
+      { id: 117, en: "hyperventilation syndrome", ja: "過換気症候群", years: [] },
+      { id: 118, en: "hypnosis", ja: "催眠", years: ["20"] },
+      { id: 119, en: "hypochondriasis", ja: "心気症", years: [] },
+      { id: 120, en: "idea of suicide", ja: "自殺念慮", years: [] },
+      { id: 121, en: "ideational apraxia", ja: "観念失行", years: [] },
+      { id: 122, en: "ideomotor apraxia", ja: "観念運動失行", years: [] },
+      { id: 123, en: "illusion", ja: "錯覚", years: [] },
+      { id: 124, en: "induced psychosis", ja: "感応精神病", years: [] },
+      { id: 125, en: "insight into disease", ja: "病識", years: ["20"] },
+      { id: 126, en: "insomnia", ja: "不眠", years: ["24", "23", "21"] },
+      { id: 127, en: "institutionalism", ja: "施設症", years: [] },
+      { id: 128, en: "intellectual disabilities", ja: "知的能力障害群", years: [] },
+      { id: 129, en: "intelligence quotient: IQ", ja: "知能指数", years: [] },
+      { id: 130, en: "intensive care unit syndrome", ja: "ICU症候群", years: [] },
+      { id: 131, en: "intention tremor", ja: "企図振戦", years: [] },
+      { id: 132, en: "Lewy body disease", ja: "レビー小体病", years: [] },
+      { id: 133, en: "loosening of association", ja: "連合弛緩", years: ["22", "21"] },
+      { id: 134, en: "magnetic resonance imaging", ja: "MRI 磁気共鳴画像", years: [] },
+      { id: 135, en: "major depressive disorder", ja: "大うつ病性障害", years: [] },
+      { id: 136, en: "malingering", ja: "詐病", years: [] },
+      { id: 137, en: "mannerism", ja: "奇異症(街奇症)", years: [] },
+      { id: 138, en: "memory", ja: "記憶", years: [] },
+      { id: 139, en: "mental retardation", ja: "精神発達遅滞", years: [] },
+      { id: 140, en: "mood stabilizer", ja: "気分安定薬", years: ["24", "23", "20"] },
+      { id: 141, en: "morning fatigue", ja: "朝方抑うつ", years: [] },
+      { id: 142, en: "moria", ja: "ふざけ症", years: [] },
+      { id: 143, en: "Morita therapy", ja: "森田療法", years: [] },
+      { id: 144, en: "motor aphasia", ja: "運動失語", years: [] },
+      { id: 145, en: "motor impersistence", ja: "運動維持困難", years: [] },
+      { id: 146, en: "motor neglect", ja: "運動無視", years: [] },
+      { id: 147, en: "music therapy", ja: "音楽療法", years: [] },
+      { id: 148, en: "musical hallucination", ja: "音楽幻聴", years: [] },
+      { id: 149, en: "Naikan therapy", ja: "内観療法", years: [] },
+      { id: 150, en: "negativism", ja: "拒絶症", years: [] },
+      { id: 151, en: "neologism", ja: "言語新作", years: [] },
+      { id: 152, en: "neurasthenia", ja: "神経衰弱", years: [] },
+      { id: 153, en: "neurodevelopmental disorders", ja: "神経発達障害群(神経発達症群)", years: [] },
+      { id: 154, en: "neurodevelopmental hypothesis", ja: "神経発達障害仮説", years: [] },
+      { id: 155, en: "neuroleptic malignant syndrome", ja: "悪性症候群", years: ["24", "23"] },
+      { id: 156, en: "neuropsychology", ja: "神経心理学", years: [] },
+      { id: 157, en: "neurosis", ja: "神経症", years: ["20", "19"] },
+      { id: 158, en: "neurosyphilis", ja: "神経梅毒", years: [] },
+      { id: 159, en: "nosology", ja: "疾病分類学", years: [] },
+      { id: 160, en: "nystagmus", ja: "眼振", years: [] },
+      { id: 161, en: "obsessive idea", ja: "強迫観念", years: [] },
+      { id: 162, en: "obsessive-compulsive disorder", ja: "強迫性障害", years: ["24", "23"] },
+      { id: 163, en: "occupational therapy", ja: "作業療法", years: [] },
+      { id: 164, en: "operant conditioning", ja: "オペラント条件づけ", years: [] },
+      { id: 165, en: "opioid", ja: "アヘン類", years: [] },
+      { id: 166, en: "opistotonus", ja: "後弓反張", years: [] },
+      { id: 167, en: "oppositional defiant disorder", ja: "反抗挑発性障害", years: [] },
+      { id: 168, en: "organic mental disorder", ja: "器質性精神障害", years: [] },
+      { id: 169, en: "organic psychosis", ja: "器質性精神病", years: [] },
+      { id: 170, en: "orientation", ja: "見当識", years: ["22", "21", "20"] },
+      { id: 171, en: "outpatient", ja: "外来患者", years: [] },
+      { id: 172, en: "palliative medicine", ja: "緩和医療", years: [] },
+      { id: 173, en: "panic disorder", ja: "パニック障害", years: [] },
+      { id: 174, en: "participant observation", ja: "関与しながらの観察", years: [] },
+      { id: 175, en: "pervasive developmental disorder", ja: "広汎性発達障害", years: ["21"] },
+      { id: 176, en: "phantom limb", ja: "幻肢", years: [] },
+      { id: 177, en: "pica", ja: "異食", years: [] },
+      { id: 178, en: "Pick disease", ja: "ピック病", years: [] },
+      { id: 179, en: "primary delusion", ja: "一次妄想", years: [] },
+      { id: 180, en: "predominantly hyperactive-impulsive presentation", ja: "多動性-衝動性優勢状態", years: [] },
+      { id: 181, en: "predominantly inattentive presentation", ja: "不注意優勢状態", years: [] },
+      { id: 182, en: "procedural memory", ja: "手続き記憶", years: [] },
+      { id: 183, en: "prodrome", ja: "前駆期", years: [] },
+      { id: 184, en: "psychiatry", ja: "精神医学", years: [] },
+      { id: 185, en: "psychoanalysis", ja: "精神分析", years: [] },
+      { id: 186, en: "psychoeducation", ja: "心理教育", years: [] },
+      { id: 187, en: "psychogenic amnesia", ja: "心因性健忘", years: [] },
+      { id: 188, en: "psychogenic reaction", ja: "心因反応", years: [] },
+      { id: 189, en: "psychosis", ja: "精神病", years: [] },
+      { id: 190, en: "reactive attachment disorder", ja: "反応性愛着障害", years: ["24", "23"] },
+      { id: 191, en: "recent memory", ja: "近時記憶", years: [] },
+      { id: 192, en: "reciprocal social interaction", ja: "相互的社会関係行動", years: [] },
+      { id: 193, en: "refeeding syndrome", ja: "再栄養症候群", years: [] },
+      { id: 194, en: "remote memory", ja: "遠隔記憶", years: [] },
+      { id: 195, en: "restless legs syndrome", ja: "下肢静止不能(むずむず脚)症候群", years: ["24", "23", "19"] },
+      { id: 196, en: "retrograde amnesia", ja: "逆向健忘", years: [] },
+      { id: 197, en: "Rorschach test", ja: "ロールシャッハテスト", years: [] },
+      { id: 198, en: "schizo-affective disorder", ja: "統合失調感情障害", years: ["21"] },
+      { id: 199, en: "schizophrenia", ja: "統合失調症", years: [] },
+      { id: 200, en: "school non-attendance", ja: "不登校", years: [] },
+      { id: 201, en: "seasonal depression", ja: "季節うつ病", years: [] },
+      { id: 202, en: "selective serotonin reuptake inhibitor(SSRI)", ja: "選択的セロトニン再取り込み阻害薬", years: [] },
+      { id: 203, en: "self-mutation", ja: "自傷", years: [] },
+      { id: 204, en: "semantic memory", ja: "意味記憶", years: [] },
+      { id: 205, en: "senile dementia of Alzheimer type", ja: "アルツハイマー型認知症", years: ["19"] },
+      { id: 206, en: "sensory aphasia", ja: "感覚失語", years: [] },
+      { id: 207, en: "separation anxiety disorder of childhood", ja: "小児期の分離不安障害", years: [] },
+      { id: 208, en: "sharp wave", ja: "棘波", years: [] },
+      { id: 209, en: "slowly progressive aphasia", ja: "緩徐進行性失語", years: [] },
+      { id: 210, en: "social anxiety disorder", ja: "社交不安障害", years: ["24"] },
+      { id: 211, en: "social psychiatry", ja: "社会精神医学", years: [] },
+      { id: 212, en: "social skills training (SST)", ja: "社会生活技能訓練", years: ["24", "23"] },
+      { id: 213, en: "somatic symptom disorders", ja: "身体症状症", years: [] },
+      { id: 214, en: "somatoform disorders", ja: "身体表現性障害", years: ["22", "21"] },
+      { id: 215, en: "specific learning disorder", ja: "限局性学習障害(限局性学習症)", years: [] },
+      { id: 216, en: "startle reaction", ja: "驚愕反応", years: [] },
+      { id: 217, en: "stereotypy", ja: "常同症", years: [] },
+      { id: 218, en: "stigma", ja: "偏見", years: ["24", "23"] },
+      { id: 219, en: "Substupor 【独】", ja: "亜昏迷", years: [] },
+      { id: 220, en: "suicide idea", ja: "自殺念慮", years: ["19"] },
+      { id: 221, en: "supportive psychotherapy", ja: "支持的精神療法", years: ["21"] },
+      { id: 222, en: "sympathy", ja: "共感", years: ["20"] },
+      { id: 223, en: "syncope", ja: "失神", years: [] },
+      { id: 224, en: "temperament", ja: "気質", years: [] },
+      { id: 225, en: "theory of mind", ja: "心の理論", years: [] },
+      { id: 226, en: "thought broadcasting", ja: "考想伝播", years: ["24", "23"] },
+      { id: 227, en: "thought insertion", ja: "考想吹入", years: [] },
+      { id: 228, en: "thought withdrawal", ja: "考想奪取", years: ["19"] },
+      { id: 229, en: "tic disorder", ja: "チック障害", years: [] },
+      { id: 230, en: "transient global amnesia", ja: "一過性全健忘", years: [] },
+      { id: 231, en: "transient ischemic attack (TIA)", ja: "一過性脳虚血発作", years: [] },
+      { id: 232, en: "traumatic neurosis", ja: "外傷神経症", years: [] },
+      { id: 233, en: "twilight state", ja: "もうろう状態", years: [] },
+      { id: 234, en: "unilateral spatial neglect", ja: "半側空間無視", years: ["20"] },
+      { id: 235, en: "visible thoughts", ja: "考想可視", years: [] },
+      { id: 236, en: "visual hallucination", ja: "幻視", years: [] },
+      { id: 237, en: "vulnerability-stress model", ja: "脆弱性-ストレスモデル", years: [] },
+      { id: 238, en: "Wechsler Adult Intelligence Scale (WAIS)", ja: "ウェクスラー成人用知能検査", years: [] },
+      { id: 239, en: "Wechsler Intelligence Scale for Children(WISC)", ja: "ウェクスラー児童用知能検査", years: [] },
+      { id: 240, en: "Wernicke aphasia", ja: "ウェルニッケ失語", years: [] },
+      { id: 241, en: "Wernicke encephalopathy", ja: "ウェルニッケ脳症", years: [] },
+      { id: 242, en: "Wilson disease", ja: "ウィルソン病", years: [] },
+      { id: 243, en: "Wisconsin Card Sorting Test(WCST)", ja: "ウィスコンシンカード分類テスト", years: [] },
+      { id: 244, en: "word salad", ja: "言葉のサラダ", years: ["19"] },
+      { id: 245, en: "working memory", ja: "作動記憶", years: ["20"] }
+    ];
+
+    // --- 状態管理 ---
+    const STORAGE_KEY = "toho_psychiatry_vocab_2025_checked";
+    let activeList = [];
+    let currentIndex = 0;
+    let isFlipped = false;
+    let isCheckedOnly = false;
+    let isShuffle = false;
+    let isEnToJa = true; // デフォルト: 英 → 日
+    let isAutoPlaying = false;
+    let autoPlayTimer = null;
+    let playIntervalSec = 2.5;
+
+    // --- DOM要素 ---
+    const filterSelect = document.getElementById("filterSelect");
+    const checkedOnlyBtn = document.getElementById("checkedOnlyBtn");
+    const checkOnlyIcon = document.getElementById("checkOnlyIcon");
+    const shuffleToggleBtn = document.getElementById("shuffleToggleBtn");
+    const shuffleStatusText = document.getElementById("shuffleStatusText");
+    const directionToggleBtn = document.getElementById("directionToggleBtn");
+    const directionText = document.getElementById("directionText");
+    const autoPlayBtn = document.getElementById("autoPlayBtn");
+    const autoPlayIcon = document.getElementById("autoPlayIcon");
+    const autoPlayBtnText = document.getElementById("autoPlayBtnText");
+    const intervalSlider = document.getElementById("intervalSlider");
+    const intervalLabel = document.getElementById("intervalLabel");
+    
+    const counterBadge = document.getElementById("counterBadge");
+    const progressBar = document.getElementById("progressBar");
+    const flashcard = document.getElementById("flashcard");
+    const cardLangFront = document.getElementById("cardLangFront");
+    const cardTextFront = document.getElementById("cardTextFront");
+    const cardLangBack = document.getElementById("cardLangBack");
+    const cardTextBack = document.getElementById("cardTextBack");
+    const yearBadgesFront = document.getElementById("yearBadgesFront");
+    const yearBadgesBack = document.getElementById("yearBadgesBack");
+    const ttsBtnFront = document.getElementById("ttsBtnFront");
+    const ttsBtnBack = document.getElementById("ttsBtnBack");
+
+    const checkCardBtn = document.getElementById("checkCardBtn");
+    const cardCheckIcon = document.getElementById("cardCheckIcon");
+    const cardCheckText = document.getElementById("cardCheckText");
+
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const resetFlipBtn = document.getElementById("resetFlipBtn");
+    const saveStatusText = document.getElementById("saveStatusText");
+
+    // モーダル要素
+    const listModal = document.getElementById("listModal");
+    const openListModalBtn = document.getElementById("openListModalBtn");
+    const closeListModalBtn = document.getElementById("closeListModalBtn");
+    const modalSearchInput = document.getElementById("modalSearchInput");
+    const modalWordContainer = document.getElementById("modalWordContainer");
+    const modalListCount = document.getElementById("modalListCount");
+
+    // --- 初期化 ---
+    function initApp() {
+      loadSavedChecks();
+      updateFilteredList();
+      renderCard();
+      setupEventListeners();
+    }
+
+    // チェック状態の読み込み
+    function loadSavedChecks() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const checkedIds = JSON.parse(saved);
+          masterWordList.forEach(w => {
+            w.checked = checkedIds.includes(w.id);
+          });
+        }
+      } catch (e) {
+        console.warn("Storage restricted", e);
+      }
+    }
+
+    // チェック状態の保存
+    function saveChecks() {
+      try {
+        const checkedIds = masterWordList.filter(w => w.checked).map(w => w.id);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(checkedIds));
+        showSavedIndicator();
+      } catch (e) {
+        console.warn("Could not save", e);
+      }
+    }
+
+    function showSavedIndicator() {
+      saveStatusText.textContent = "Saved";
+      saveStatusText.parentElement.classList.add("scale-105");
+      setTimeout(() => {
+        saveStatusText.parentElement.classList.remove("scale-105");
+      }, 300);
+    }
+
+    // フィルターの適用
+    function updateFilteredList() {
+      const filterMode = filterSelect.value;
+      let list = [...masterWordList];
+
+      if (filterMode === "has_years") {
+        list = list.filter(w => w.years && w.years.length > 0);
+      } else if (filterMode === "frequent") {
+        list = list.filter(w => w.years && w.years.length >= 2);
+      } else if (filterMode.startsWith("y")) {
+        const targetYear = filterMode.replace("y", "");
+        list = list.filter(w => w.years && w.years.includes(targetYear));
+      }
+
+      if (isCheckedOnly) {
+        list = list.filter(w => w.checked);
+      }
+
+      if (isShuffle) {
+        for (let i = list.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [list[i], list[j]] = [list[j], list[i]];
+        }
+      }
+
+      activeList = list;
+      currentIndex = 0;
+      isFlipped = false;
+      applyFlipState();
+    }
+
+    // カード描画（添付画像のUIに完全準拠）
+    function renderCard() {
+      const total = activeList.length;
+
+      if (total === 0) {
+        counterBadge.textContent = "0 / 0";
+        progressBar.style.width = "0%";
+        cardTextFront.textContent = "該当単語なし";
+        cardTextBack.textContent = "-";
+        yearBadgesFront.innerHTML = "";
+        yearBadgesBack.innerHTML = "";
+        updateCheckBtnUI(false);
+        return;
+      }
+
+      if (currentIndex >= total) currentIndex = 0;
+      if (currentIndex < 0) currentIndex = total - 1;
+
+      const word = activeList[currentIndex];
+      counterBadge.textContent = `${currentIndex + 1} / ${total}`;
+      progressBar.style.width = `${((currentIndex + 1) / total) * 100}%`;
+
+      // 日英の向き
+      if (isEnToJa) {
+        cardLangFront.textContent = "英語";
+        cardTextFront.textContent = word.en;
+        cardLangBack.textContent = "日本語";
+        cardTextBack.textContent = word.ja;
+        intervalLabel.textContent = `日本語表示: ${playIntervalSec}秒`;
+      } else {
+        cardLangFront.textContent = "日本語";
+        cardTextFront.textContent = word.ja;
+        cardLangBack.textContent = "英語";
+        cardTextBack.textContent = word.en;
+        intervalLabel.textContent = `英語表示: ${playIntervalSec}秒`;
+      }
+
+      // 添付画像のバッジUI（'24 出題, '23 出題）を生成
+      const badgeHTML = renderImageStyleBadges(word.years);
+      yearBadgesFront.innerHTML = badgeHTML;
+      yearBadgesBack.innerHTML = badgeHTML;
+
+      updateCheckBtnUI(word.checked);
+    }
+
+    // 添付画像のサーモンピンク系出題年度ピル（例: '24 出題）
+    function renderImageStyleBadges(years) {
+      if (!years || years.length === 0) return "";
+      return years.map(y => `
+        <span class="inline-flex items-center justify-center bg-[#fee2e2] text-[#991b1b] border border-[#fecaca] text-[11px] sm:text-xs font-bold px-2.5 py-0.5 rounded-lg shadow-2xs">
+          ’${y} 出題
+        </span>
+      `).join("");
+    }
+
+    // チェックボタンUI（未チェック: 白 / チェック済: 淡いパープル）
+    function updateCheckBtnUI(isChecked) {
+      if (isChecked) {
+        checkCardBtn.className = "w-full rounded-2xl py-3.5 px-4 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 border-2 transition-all shadow-sm border-indigo-200 bg-[#ede9fe] text-[#5b21b6]";
+        cardCheckIcon.innerHTML = `
+          <rect x="3" y="3" width="18" height="18" rx="4" fill="#5b21b6" stroke="#5b21b6" stroke-width="2"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7 12.5l3.5 3.5 6.5-7" stroke="#ffffff" stroke-width="2.5"/>
+        `;
+        cardCheckText.textContent = "分からない単語 (チェック済み)";
+      } else {
+        checkCardBtn.className = "w-full rounded-2xl py-3.5 px-4 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 border-2 transition-all shadow-sm border-slate-200 bg-white text-slate-600 hover:border-slate-300";
+        cardCheckIcon.innerHTML = `<rect x="3" y="3" width="18" height="18" rx="3" ry="3"></rect>`;
+        cardCheckText.textContent = "分からない単語としてチェック";
+      }
+    }
+
+    // カードの反転
+    function toggleFlip() {
+      if (activeList.length === 0) return;
+      isFlipped = !isFlipped;
+      applyFlipState();
+    }
+
+    function applyFlipState() {
+      if (isFlipped) {
+        flashcard.classList.add("rotate-y-180");
+      } else {
+        flashcard.classList.remove("rotate-y-180");
+      }
+    }
+
+    function nextCard() {
+      if (activeList.length === 0) return;
+      currentIndex = (currentIndex + 1) % activeList.length;
+      isFlipped = false;
+      applyFlipState();
+      renderCard();
+    }
+
+    function prevCard() {
+      if (activeList.length === 0) return;
+      currentIndex = (currentIndex - 1 + activeList.length) % activeList.length;
+      isFlipped = false;
+      applyFlipState();
+      renderCard();
+    }
+
+    function toggleCheck() {
+      if (activeList.length === 0) return;
+      const word = activeList[currentIndex];
+      word.checked = !word.checked;
+
+      const target = masterWordList.find(w => w.id === word.id);
+      if (target) target.checked = word.checked;
+
+      saveChecks();
+      updateCheckBtnUI(word.checked);
+
+      if (isCheckedOnly && !word.checked) {
+        updateFilteredList();
+        renderCard();
+      }
+    }
+
+    // 英語発音 (Web Speech API)
+    function speakEnglish(e) {
+      if (e) e.stopPropagation();
+      if (activeList.length === 0) return;
+      const word = activeList[currentIndex];
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(word.en);
+        utter.lang = 'en-US';
+        utter.rate = 0.9;
+        window.speechSynthesis.speak(utter);
+      }
+    }
+
+    // オートプレイ
+    function toggleAutoPlay() {
+      if (isAutoPlaying) {
+        stopAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    }
+
+    function startAutoPlay() {
+      if (activeList.length === 0) return;
+      isAutoPlaying = true;
+      autoPlayBtn.className = "bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-300 rounded-xl px-4 py-1.5 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm shrink-0";
+      autoPlayIcon.innerHTML = `<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>`;
+      autoPlayBtnText.textContent = "停止";
+
+      runAutoPlayStep();
+    }
+
+    function stopAutoPlay() {
+      isAutoPlaying = false;
+      if (autoPlayTimer) clearTimeout(autoPlayTimer);
+      autoPlayBtn.className = "bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200/80 rounded-xl px-4 py-1.5 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm shrink-0";
+      autoPlayIcon.innerHTML = `<path d="M8 5v14l11-7z"/>`;
+      autoPlayBtnText.textContent = "再生";
+    }
+
+    function runAutoPlayStep() {
+      if (!isAutoPlaying) return;
+      const durationMs = playIntervalSec * 1000;
+
+      if (!isFlipped) {
+        autoPlayTimer = setTimeout(() => {
+          if (!isAutoPlaying) return;
+          toggleFlip();
+          runAutoPlayStep();
+        }, durationMs);
+      } else {
+        autoPlayTimer = setTimeout(() => {
+          if (!isAutoPlaying) return;
+          nextCard();
+          runAutoPlayStep();
+        }, durationMs * 0.9);
+      }
+    }
+
+    // 単語一覧モーダル
+    function openListModal() {
+      listModal.classList.remove("hidden");
+      setTimeout(() => listModal.classList.remove("opacity-0"), 10);
+      renderModalList("");
+      modalSearchInput.value = "";
+    }
+
+    function closeListModal() {
+      listModal.classList.add("opacity-0");
+      setTimeout(() => listModal.classList.add("hidden"), 200);
+    }
+
+    function renderModalList(searchQuery) {
+      const q = searchQuery.toLowerCase().trim();
+      const filtered = masterWordList.filter(w => {
+        return w.en.toLowerCase().includes(q) || w.ja.includes(q) || (w.years && w.years.join(" ").includes(q));
+      });
+
+      modalListCount.textContent = `${filtered.length}語`;
+      modalWordContainer.innerHTML = filtered.map(w => {
+        const badges = w.years && w.years.length > 0 
+          ? w.years.map(y => `<span class="bg-[#fee2e2] text-[#991b1b] text-[10px] font-bold px-1.5 py-0.2 rounded">’${y} 出題</span>`).join(" ")
+          : '';
+        return `
+          <div class="py-2.5 px-2 flex items-center justify-between hover:bg-slate-50 cursor-pointer rounded-xl transition-colors group" onclick="jumpToWord(${w.id})">
+            <div class="flex-1 pr-2">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="font-bold text-slate-800 text-xs sm:text-sm group-hover:text-indigo-600">${w.en}</span>
+                ${badges}
+              </div>
+              <div class="text-slate-500 text-[11px] mt-0.5">${w.ja}</div>
+            </div>
+            <span class="text-xs ${w.checked ? 'text-[#5b21b6] font-bold' : 'text-slate-300'}">
+              ${w.checked ? '☑' : '☐'}
+            </span>
+          </div>
+        `;
+      }).join("");
+    }
+
+    window.jumpToWord = function(wordId) {
+      const idx = activeList.findIndex(w => w.id === wordId);
+      if (idx !== -1) {
+        currentIndex = idx;
+      } else {
+        filterSelect.value = "all";
+        isCheckedOnly = false;
+        checkedOnlyBtn.className = "col-span-3 h-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 rounded-xl px-1.5 py-2 text-xs font-bold flex items-center justify-center gap-1 shadow-sm transition-all";
+        checkOnlyIcon.textContent = "☐";
+        updateFilteredList();
+        currentIndex = activeList.findIndex(w => w.id === wordId);
+      }
+      isFlipped = false;
+      applyFlipState();
+      renderCard();
+      closeListModal();
+    };
+
+    // イベント登録
+    function setupEventListeners() {
+      flashcard.addEventListener("click", toggleFlip);
+      nextBtn.addEventListener("click", nextCard);
+      prevBtn.addEventListener("click", prevCard);
+      resetFlipBtn.addEventListener("click", () => {
+        isFlipped = false;
+        applyFlipState();
+      });
+
+      checkCardBtn.addEventListener("click", toggleCheck);
+      ttsBtnFront.addEventListener("click", speakEnglish);
+      ttsBtnBack.addEventListener("click", speakEnglish);
+
+      filterSelect.addEventListener("change", () => {
+        updateFilteredList();
+        renderCard();
+      });
+
+      checkedOnlyBtn.addEventListener("click", () => {
+        isCheckedOnly = !isCheckedOnly;
+        if (isCheckedOnly) {
+          checkedOnlyBtn.className = "col-span-3 h-full border border-indigo-300 bg-[#ede9fe] text-[#5b21b6] rounded-xl px-1.5 py-2 text-xs font-bold flex items-center justify-center gap-1 shadow-sm transition-all";
+          checkOnlyIcon.textContent = "☑";
+        } else {
+          checkedOnlyBtn.className = "col-span-3 h-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 rounded-xl px-1.5 py-2 text-xs font-bold flex items-center justify-center gap-1 shadow-sm transition-all";
+          checkOnlyIcon.textContent = "☐";
+        }
+        updateFilteredList();
+        renderCard();
+      });
+
+      shuffleToggleBtn.addEventListener("click", () => {
+        isShuffle = !isShuffle;
+        if (isShuffle) {
+          shuffleStatusText.textContent = "ON";
+          shuffleToggleBtn.classList.add("text-indigo-600", "border-indigo-200", "bg-indigo-50/50");
+        } else {
+          shuffleStatusText.textContent = "OFF";
+          shuffleToggleBtn.classList.remove("text-indigo-600", "border-indigo-200", "bg-indigo-50/50");
+        }
+        updateFilteredList();
+        renderCard();
+      });
+
+      directionToggleBtn.addEventListener("click", () => {
+        isEnToJa = !isEnToJa;
+        directionText.textContent = isEnToJa ? "英 → 日" : "日 → 英";
+        isFlipped = false;
+        applyFlipState();
+        renderCard();
+      });
+
+      intervalSlider.addEventListener("input", (e) => {
+        playIntervalSec = parseFloat(e.target.value);
+        intervalLabel.textContent = `${isEnToJa ? "日本語" : "英語"}表示: ${playIntervalSec}秒`;
+      });
+
+      autoPlayBtn.addEventListener("click", toggleAutoPlay);
+
+      openListModalBtn.addEventListener("click", openListModal);
+      closeListModalBtn.addEventListener("click", closeListModal);
+      modalSearchInput.addEventListener("input", (e) => renderModalList(e.target.value));
+
+      window.addEventListener("keydown", (e) => {
+        if (e.target.tagName === "INPUT" || e.target.tagName === "SELECT") return;
+        if (e.key === "ArrowRight") nextCard();
+        if (e.key === "ArrowLeft") prevCard();
+        if (e.key === " ") {
+          e.preventDefault();
+          toggleFlip();
+        }
+        if (e.key === "ArrowUp") {
+          e.preventDefault();
+          toggleCheck();
+        }
+        if (e.key === "s" || e.key === "S") {
+          speakEnglish();
+        }
+      });
+    }
+
+    window.addEventListener("DOMContentLoaded", initApp);
+  </script>
+</body>
+</html>
