@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>医学英単語マスター (Medical English Vocab Master)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* 3Dカード反転スタイル */
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+    .transform-style-3d {
+      transform-style: preserve-3d;
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+
+    /* レンジスライダーのカスタマイズ */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
+      border-radius: 9999px;
+      background: #e2e8f0;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2.5px solid #4f46e5;
+      box-shadow: 0 2px 5px rgba(79, 70, 229, 0.25);
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2.5px solid #4f46e5;
+      box-shadow: 0 2px 5px rgba(79, 70, 229, 0.25);
+      cursor: pointer;
+    }
+
+    /* スクロールバー */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f8fafc;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-800 min-h-screen flex justify-center items-start sm:py-6 p-0 select-none">
+
+  <!-- メインコンテナ -->
+  <div class="w-full max-w-md bg-white sm:rounded-3xl sm:shadow-2xl sm:border sm:border-slate-100 overflow-hidden flex flex-col min-h-screen sm:min-h-[780px]">
+
+    <!-- 1. ヘッダーエリア -->
+    <header class="bg-[#4f46e5] text-white px-4 py-3 flex items-center justify-between shadow-sm relative z-10">
+      <div class="flex items-center gap-2">
+        <div class="p-1.5 bg-white/15 rounded-xl backdrop-blur-sm">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-sm sm:text-base font-extrabold tracking-tight">医学英単語マスター</h1>
+          <p class="text-[10px] text-indigo-200 font-medium leading-none">Medical English Vocab Complete</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-1.5">
+        <!-- 一覧モーダルボタン -->
+        <button id="openListModalBtn" class="bg-white/15 hover:bg-white/25 active:scale-95 transition-all text-white p-1.5 rounded-full" title="単語一覧を開く">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" />
+          </svg>
+        </button>
+        <!-- Saved バッジ -->
+        <div id="saveBadge" class="bg-white/20 backdrop-blur-sm text-white text-[11px] px-2 py-0.5 rounded-full flex items-center gap-1 font-semibold">
+          <svg class="w-3 h-3 text-emerald-300" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+          </svg>
+          <span id="saveStatusText">Saved</span>
+        </div>
+        <!-- カウンターバッジ -->
+        <div id="counterBadge" class="bg-white/25 backdrop-blur-sm text-white text-xs px-2.5 py-1 rounded-full font-bold">
+          1 / 540
+        </div>
+      </div>
+    </header>
+
+    <!-- コース切り替えタブ（統合ナビゲーション） -->
+    <nav class="bg-indigo-50/80 p-1.5 flex gap-1 border-b border-indigo-100 text-xs font-bold">
+      <button id="courseTabAll" class="flex-1 py-1.5 rounded-xl text-center transition-all bg-white text-indigo-700 shadow-sm border border-indigo-200">
+        総合 (全540)
+      </button>
+      <button id="courseTabM3" class="flex-1 py-1.5 rounded-xl text-center transition-all text-slate-600 hover:text-indigo-600 hover:bg-white/60">
+        M3春 系統別 (295)
+      </button>
+      <button id="courseTabPsy" class="flex-1 py-1.5 rounded-xl text-center transition-all text-slate-600 hover:text-indigo-600 hover:bg-white/60">
+        精神神経医学 (245)
+      </button>
+    </nav>
+
+    <!-- プログレスバー -->
+    <div class="w-full bg-slate-100 h-1">
+      <div id="progressBar" class="bg-indigo-500 h-1 transition-all duration-300" style="width: 0.2%;"></div>
+    </div>
+
+    <!-- コンテンツメイン -->
+    <main class="flex-1 p-3.5 flex flex-col justify-between gap-3">
+
+      <!-- 2. コントロールバー -->
+      <section class="grid grid-cols-12 gap-2 items-center">
+        <!-- 領域/出題年サブフィルター -->
+        <div class="col-span-6 relative">
+          <select id="filterSelect" class="w-full appearance-none bg-white border border-slate-200 hover:border-indigo-300 rounded-xl px-3 py-2 text-xs font-bold text-slate-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 cursor-pointer pr-7 truncate">
+            <!-- JSで動的生成 -->
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- ✓Only トグルボタン -->
+        <button id="checkedOnlyBtn" class="col-span-3 h-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 rounded-xl px-1.5 py-2 text-xs font-bold flex items-center justify-center gap-1 shadow-sm transition-all">
+          <span id="checkOnlyIcon" class="text-xs">☐</span>
+          <span>✓Only</span>
+        </button>
+
+        <!-- 🔄 OFF/ON トグルボタン (シャッフル) -->
+        <button id="shuffleToggleBtn" class="col-span-3 h-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 rounded-xl px-1.5 py-2 text-xs font-bold flex items-center justify-center gap-1 shadow-sm transition-all">
+          <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          <span id="shuffleStatusText">OFF</span>
+        </button>
+      </section>
+
+      <!-- 3. オートプレイ設定バー -->
+      <section class="border border-slate-200/90 rounded-2xl p-3 bg-white shadow-sm flex flex-col gap-2">
+        <div class="flex items-center justify-between text-xs">
+          <div class="flex items-center gap-1 text-slate-500 font-bold">
+            <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span>オートプレイ設定</span>
+          </div>
+
+          <!-- 方向切り替え (英→日 / 日→英) -->
+          <button id="directionToggleBtn" class="flex items-center gap-1 text-slate-600 font-bold hover:text-indigo-600 transition-colors">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+            </svg>
+            <span id="directionText">英 → 日</span>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-3 pt-0.5">
+          <!-- 再生/停止ボタン -->
+          <button id="autoPlayBtn" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200/80 rounded-xl px-4 py-1.5 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm active:scale-95 shrink-0">
+            <svg id="autoPlayIcon" class="w-3 h-3 fill-current" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            <span id="autoPlayBtnText">再生</span>
+          </button>
+
+          <!-- スライダー + 秒数表示 -->
+          <div class="flex-1 flex flex-col justify-center">
+            <span id="intervalLabel" class="text-[10px] text-slate-400 font-medium leading-none mb-1">日本語表示: 2.5秒</span>
+            <input id="intervalSlider" type="range" min="1" max="7" value="2.5" step="0.5" class="w-full cursor-pointer">
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. メインフラッシュカード -->
+      <section class="perspective-1000 my-0.5">
+        <div id="flashcard" class="relative w-full h-[270px] sm:h-[290px] transform-style-3d transition-transform duration-500 cursor-pointer">
+          
+          <!-- カード表面 (英語) -->
+          <div class="absolute inset-0 w-full h-full bg-white rounded-3xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 flex flex-col justify-between items-center backface-hidden">
+            <!-- 上部：言語ラベル ＆ 発音ボタン -->
+            <div class="flex items-center justify-center gap-1.5">
+              <span id="cardLangFront" class="text-xs text-slate-400 font-bold tracking-wider">英語</span>
+              <button id="ttsBtnFront" class="text-slate-500 hover:text-indigo-600 transition-colors inline-flex items-center p-0.5 rounded" title="発音を聞く">
+                <span class="text-base leading-none">🔊</span>
+              </button>
+            </div>
+            
+            <!-- 中央：単語テキスト -->
+            <div class="flex flex-col items-center justify-center flex-1 px-2 text-center w-full my-auto">
+              <h2 id="cardTextFront" class="text-2xl sm:text-3xl font-medium text-[#1e293b] tracking-normal leading-snug break-words">
+                Angiography
+              </h2>
+            </div>
+
+            <!-- 下部：セクション＆出題年度バッジ -->
+            <div id="sectionBadgeFront" class="flex items-center justify-center gap-1.5 flex-wrap min-h-[26px]">
+              <!-- JSで動的挿入 -->
+            </div>
+          </div>
+
+          <!-- カード裏面 (日本語) -->
+          <div class="absolute inset-0 w-full h-full bg-[#fbf9fe] rounded-3xl border border-purple-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.05)] p-6 flex flex-col justify-between items-center backface-hidden rotate-y-180">
+            <!-- 上部：言語ラベル ＆ 発音ボタン -->
+            <div class="flex items-center justify-center gap-1.5">
+              <span id="cardLangBack" class="text-xs text-slate-500 font-bold tracking-wider">日本語</span>
+              <button id="ttsBtnBack" class="text-slate-500 hover:text-indigo-600 transition-colors inline-flex items-center p-0.5 rounded" title="英語の発音を聞く">
+                <span class="text-base leading-none">🔊</span>
+              </button>
+            </div>
+            
+            <!-- 中央：対訳テキスト -->
+            <div class="flex flex-col items-center justify-center flex-1 px-2 text-center w-full my-auto">
+              <h2 id="cardTextBack" class="text-2xl sm:text-3xl font-medium text-[#1e293b] tracking-normal leading-snug break-words">
+                血管造影
+              </h2>
+            </div>
+
+            <!-- 下部：セクション＆出題年度バッジ -->
+            <div id="sectionBadgeBack" class="flex items-center justify-center gap-1.5 flex-wrap min-h-[26px]">
+              <!-- JSで動的挿入 -->
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 5. 「分からない単語としてチェック」ボタン -->
+      <section>
+        <button id="checkCardBtn" class="w-full rounded-2xl py-3.5 px-4 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 border-2 transition-all shadow-sm active:scale-[0.99] border-slate-200 bg-white text-slate-600 hover:border-slate-300">
+          <svg class="w-4 h-4 text-slate-400" id="cardCheckIcon" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="3" ry="3"></rect>
+          </svg>
+          <span id="cardCheckText">分からない単語としてチェック</span>
+        </button>
+      </section>
+
+      <!-- 6. ナビゲーションフッター -->
+      <footer class="flex items-center gap-2 pt-1 pb-1">
+        <!-- 前へボタン -->
+        <button id="prevBtn" class="w-[32%] py-3.5 rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold text-xs sm:text-sm shadow-sm active:scale-95 transition-all flex items-center justify-center gap-1">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+          <span>前へ</span>
+        </button>
+
+        <!-- リセット・反転初期化ボタン -->
+        <button id="resetFlipBtn" title="表裏をリセット" class="w-12 h-[48px] rounded-2xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 font-bold shadow-sm active:scale-95 transition-all flex items-center justify-center shrink-0">
+          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+        </button>
+
+        <!-- 次へボタン -->
+        <button id="nextBtn" class="flex-1 py-3.5 rounded-2xl bg-[#4f46e5] hover:bg-[#4338ca] text-white font-bold text-xs sm:text-sm shadow-md shadow-indigo-200 active:scale-95 transition-all flex items-center justify-center gap-1">
+          <span>次へ</span>
+          <svg class="w-4 h-4 text-white/90" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- 単語一覧モーダル -->
+  <div id="listModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex justify-center items-end sm:items-center hidden opacity-0 transition-opacity duration-200">
+    <div class="bg-white w-full max-w-lg rounded-t-3xl sm:rounded-3xl max-h-[88vh] flex flex-col shadow-2xl overflow-hidden">
+      <!-- モーダルヘッダー -->
+      <div class="p-4 border-b border-slate-100 flex items-center justify-between bg-indigo-50/60">
+        <div class="flex items-center gap-2">
+          <span class="text-base sm:text-lg font-black text-slate-800">医学英語 必修単語一覧</span>
+          <span id="modalListCount" class="text-xs sm:text-sm font-bold text-indigo-600 bg-indigo-100 px-2.5 py-0.5 rounded-full">0語</span>
+        </div>
+        <button id="closeListModalBtn" class="p-1.5 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- 検索入力 -->
+      <div class="p-3 border-b border-slate-100 bg-white">
+        <div class="relative">
+          <input id="modalSearchInput" type="text" placeholder="英語または日本語で検索..." class="w-full bg-slate-100 text-sm rounded-xl pl-9 pr-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 font-medium placeholder:text-slate-400">
+          <svg class="w-4 h-4 text-slate-400 absolute left-3 top-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- リストコンテナ -->
+      <div id="modalWordContainer" class="flex-1 overflow-y-auto p-3 divide-y divide-slate-100"></div>
+    </div>
+  </div>
+
+  <!-- JavaScript アプリケーションロジック -->
+  <script>
+    /**
+     * 2つのデータセットを統合した全540語のマスターデータ
+     */
+    const masterWordList = [
+      // ==========================================
+      // 1. M3春 医学英単語 (全295語)
+      // ==========================================
+      // 1-1. 循環器系（Cardiovascular System） - 56語
+      { id: "m3_1", category: "m3", section: "循環器系", en: "Angiography", ja: "血管造影", years: [] },
+      { id: "m3_2", category: "m3", section: "循環器系", en: "Cardiac catheterization", ja: "心臓カテーテル検査", years: [] },
+      { id: "m3_3", category: "m3", section: "循環器系", en: "Cardiac enzyme tests", ja: "心筋酵素検査", years: [] },
+      { id: "m3_4", category: "m3", section: "循環器系", en: "Doppler ultrasound", ja: "ドップラー超音波", years: [] },
+      { id: "m3_5", category: "m3", section: "循環器系", en: "Echocardiography", ja: "心エコー", years: [] },
+      { id: "m3_6", category: "m3", section: "循環器系", en: "Holter monitoring", ja: "ホルター心電図", years: [] },
+      { id: "m3_7", category: "m3", section: "循環器系", en: "Lipid tests", ja: "脂質検査", years: [] },
+      { id: "m3_8", category: "m3", section: "循環器系", en: "Lipoprotein tests", ja: "リポ蛋白検査", years: [] },
+      { id: "m3_9", category: "m3", section: "循環器系", en: "Magnetic resonance imaging (MRI)", ja: "MRI", years: [] },
+      { id: "m3_10", category: "m3", section: "循環器系", en: "MUGA scan", ja: "MUGAスキャン", years: [] },
+      { id: "m3_11", category: "m3", section: "循環器系", en: "Positron emission tomography (PET)", ja: "PET", years: [] },
+      { id: "m3_12", category: "m3", section: "循環器系", en: "Stress test", ja: "負荷試験", years: [] },
+      { id: "m3_13", category: "m3", section: "循環器系", en: "Technetium-99m Tc sestamibi", ja: "セスタミビシンチ", years: [] },
+      { id: "m3_14", category: "m3", section: "循環器系", en: "Thallium-201 scan", ja: "タリウムシンチ", years: [] },
+      { id: "m3_15", category: "m3", section: "循環器系", en: "Angioplasty", ja: "血管形成術", years: [] },
+      { id: "m3_16", category: "m3", section: "循環器系", en: "Aortic stenosis", ja: "大動脈弁狭窄症", years: [] },
+      { id: "m3_17", category: "m3", section: "循環器系", en: "Arteriosclerosis", ja: "動脈硬化症", years: [] },
+      { id: "m3_18", category: "m3", section: "循環器系", en: "Arteriolitis", ja: "細動脈炎", years: [] },
+      { id: "m3_19", category: "m3", section: "循環器系", en: "Cardiomyopathy", ja: "心筋症", years: [] },
+      { id: "m3_20", category: "m3", section: "循環器系", en: "Pericardium", ja: "心外膜（心膜）", years: [] },
+      { id: "m3_21", category: "m3", section: "循環器系", en: "Coronary arteries", ja: "冠動脈", years: [] },
+      { id: "m3_22", category: "m3", section: "循環器系", en: "Phlebotomy", ja: "瀉血（採血）", years: [] },
+      { id: "m3_23", category: "m3", section: "循環器系", en: "Intravenous", ja: "静脈内の", years: [] },
+      { id: "m3_24", category: "m3", section: "循環器系", en: "Venulitis", ja: "細静脈炎", years: [] },
+      { id: "m3_25", category: "m3", section: "循環器系", en: "Aneurysm", ja: "瘤（動脈瘤）", years: [] },
+      { id: "m3_26", category: "m3", section: "循環器系", en: "Angina", ja: "狭心症", years: [] },
+      { id: "m3_27", category: "m3", section: "循環器系", en: "Arrhythmia", ja: "不整脈", years: [] },
+      { id: "m3_28", category: "m3", section: "循環器系", en: "Atherosclerosis", ja: "粥状動脈硬化", years: [] },
+      { id: "m3_29", category: "m3", section: "循環器系", en: "Fibrillation", ja: "細動", years: [] },
+      { id: "m3_30", category: "m3", section: "循環器系", en: "Flutter", ja: "粗動", years: [] },
+      { id: "m3_31", category: "m3", section: "循環器系", en: "Congestive heart failure (CHF)", ja: "充血性心不全", years: [] },
+      { id: "m3_32", category: "m3", section: "循環器系", en: "Pulmonary edema", ja: "肺水腫", years: [] },
+      { id: "m3_33", category: "m3", section: "循環器系", en: "Hypertension (HTN)", ja: "高血圧", years: [] },
+      { id: "m3_34", category: "m3", section: "循環器系", en: "Myocardial infarction (MI)", ja: "心筋梗塞", years: [] },
+      { id: "m3_35", category: "m3", section: "循環器系", en: "Shock", ja: "ショック", years: [] },
+      { id: "m3_36", category: "m3", section: "循環器系", en: "Cardiac catheter ablation", ja: "心筋焼灼術", years: [] },
+      { id: "m3_37", category: "m3", section: "循環器系", en: "Cardioversion", ja: "電気的除細動（除細動）", years: [] },
+      { id: "m3_38", category: "m3", section: "循環器系", en: "Defibrillation", ja: "除細動", years: [] },
+      { id: "m3_39", category: "m3", section: "循環器系", en: "Coronary artery bypass grafting (CABG)", ja: "冠動脈バイパス術", years: [] },
+      { id: "m3_40", category: "m3", section: "循環器系", en: "Endarterectomy", ja: "内膜剥離術", years: [] },
+      { id: "m3_41", category: "m3", section: "循環器系", en: "Heart transplantation", ja: "心臓移植", years: [] },
+      { id: "m3_42", category: "m3", section: "循環器系", en: "Percutaneous coronary intervention (PCI)", ja: "経皮的冠動脈インターベンション", years: [] },
+      { id: "m3_43", category: "m3", section: "循環器系", en: "Thrombolytic therapy", ja: "血栓溶解療法", years: [] },
+      { id: "m3_44", category: "m3", section: "循環器系", en: "Cardiopulmonary Resuscitation (CPR)", ja: "心肺蘇生法", years: [] },
+      { id: "m3_45", category: "m3", section: "循環器系", en: "Electrocardiogram (ECG / EKG)", ja: "心電図", years: [] },
+      { id: "m3_46", category: "m3", section: "循環器系", en: "Echocardiogram (ECHO)", ja: "心エコー", years: [] },
+      { id: "m3_47", category: "m3", section: "循環器系", en: "High-Density Lipoprotein (HDL)", ja: "高比重リポ蛋白", years: [] },
+      { id: "m3_48", category: "m3", section: "循環器系", en: "Implantable Cardioverter Defibrillator (ICD)", ja: "植込み型除細動器", years: [] },
+      { id: "m3_49", category: "m3", section: "循環器系", en: "Low-Density Lipoprotein (LDL)", ja: "低比重リポ蛋白", years: [] },
+      { id: "m3_50", category: "m3", section: "循環器系", en: "Abdominal Aortic Aneurysm (AAA)", ja: "腹部動脈瘤", years: [] },
+      { id: "m3_51", category: "m3", section: "循環器系", en: "Acute Coronary Syndrome (ACS)", ja: "急性冠症候群", years: [] },
+      { id: "m3_52", category: "m3", section: "循環器系", en: "Automated External Defibrillator (AED)", ja: "自動体外式除細動器", years: [] },
+      { id: "m3_53", category: "m3", section: "循環器系", en: "Acute Myocardial Infarction (AMI)", ja: "急性心筋梗塞", years: [] },
+      { id: "m3_54", category: "m3", section: "循環器系", en: "Blood Pressure (BP)", ja: "血圧", years: [] },
+      { id: "m3_55", category: "m3", section: "循環器系", en: "Coronary Artery Disease (CAD)", ja: "冠動脈疾患", years: [] },
+      { id: "m3_56", category: "m3", section: "循環器系", en: "Coronary Care Unit (CCU)", ja: "心血管疾患集中治療室", years: [] },
+
+      // 1-2. 消化器系（Digestive System） - 75語
+      { id: "m3_57", category: "m3", section: "消化器系", en: "Mouth", ja: "口腔", years: [] },
+      { id: "m3_58", category: "m3", section: "消化器系", en: "Pharynx", ja: "咽頭", years: [] },
+      { id: "m3_59", category: "m3", section: "消化器系", en: "Esophagus", ja: "食道", years: [] },
+      { id: "m3_60", category: "m3", section: "消化器系", en: "Stomach", ja: "胃", years: [] },
+      { id: "m3_61", category: "m3", section: "消化器系", en: "Duodenum", ja: "十二指腸", years: [] },
+      { id: "m3_62", category: "m3", section: "消化器系", en: "Jejunum", ja: "空腸", years: [] },
+      { id: "m3_63", category: "m3", section: "消化器系", en: "Ileum", ja: "回腸", years: [] },
+      { id: "m3_64", category: "m3", section: "消化器系", en: "Appendix", ja: "虫垂", years: [] },
+      { id: "m3_65", category: "m3", section: "消化器系", en: "Colon", ja: "結腸", years: [] },
+      { id: "m3_66", category: "m3", section: "消化器系", en: "Sigmoid colon", ja: "S状結腸", years: [] },
+      { id: "m3_67", category: "m3", section: "消化器系", en: "Rectum", ja: "直腸", years: [] },
+      { id: "m3_68", category: "m3", section: "消化器系", en: "Anus", ja: "肛門", years: [] },
+      { id: "m3_69", category: "m3", section: "消化器系", en: "Liver", ja: "肝臓（副器官）", years: [] },
+      { id: "m3_70", category: "m3", section: "消化器系", en: "Gallbladder (GB)", ja: "胆嚢（副器官）", years: [] },
+      { id: "m3_71", category: "m3", section: "消化器系", en: "Pancreas", ja: "膵臓（副器官）", years: [] },
+      { id: "m3_72", category: "m3", section: "消化器系", en: "Anal", ja: "肛門の", years: [] },
+      { id: "m3_73", category: "m3", section: "消化器系", en: "Appendectomy", ja: "虫垂切除術", years: [] },
+      { id: "m3_74", category: "m3", section: "消化器系", en: "Appendicitis", ja: "虫垂炎", years: [] },
+      { id: "m3_75", category: "m3", section: "消化器系", en: "Cholecystectomy", ja: "胆嚢摘出術", years: [] },
+      { id: "m3_76", category: "m3", section: "消化器系", en: "Colostomy", ja: "結腸造設術", years: [] },
+      { id: "m3_77", category: "m3", section: "消化器系", en: "Colonoscopy", ja: "大腸内視鏡検査", years: [] },
+      { id: "m3_78", category: "m3", section: "消化器系", en: "Duodenal", ja: "十二指腸の", years: [] },
+      { id: "m3_79", category: "m3", section: "消化器系", en: "Esophageal", ja: "食道の", years: [] },
+      { id: "m3_80", category: "m3", section: "消化器系", en: "Gastralgia", ja: "胃痛", years: [] },
+      { id: "m3_81", category: "m3", section: "消化器系", en: "Hepatomegaly", ja: "肝腫大", years: [] },
+      { id: "m3_82", category: "m3", section: "消化器系", en: "Ileostomy", ja: "回腸造設術", years: [] },
+      { id: "m3_83", category: "m3", section: "消化器系", en: "Gastrojejunostomy", ja: "胃空腸吻合術", years: [] },
+      { id: "m3_84", category: "m3", section: "消化器系", en: "Oral", ja: "口腔の", years: [] },
+      { id: "m3_85", category: "m3", section: "消化器系", en: "Pancreatitis", ja: "膵炎", years: [] },
+      { id: "m3_86", category: "m3", section: "消化器系", en: "Pharyngeal", ja: "咽頭の", years: [] },
+      { id: "m3_87", category: "m3", section: "消化器系", en: "Rectocele", ja: "直腸瘤", years: [] },
+      { id: "m3_88", category: "m3", section: "消化器系", en: "Sigmoidoscopy", ja: "S状結腸鏡検査", years: [] },
+      { id: "m3_89", category: "m3", section: "消化器系", en: "Stomatitis", ja: "口内炎", years: [] },
+      { id: "m3_90", category: "m3", section: "消化器系", en: "Cholelithiasis", ja: "胆石症", years: [] },
+      { id: "m3_91", category: "m3", section: "消化器系", en: "Cirrhosis", ja: "肝硬変", years: [] },
+      { id: "m3_92", category: "m3", section: "消化器系", en: "Colonic polyposis", ja: "大腸ポリポーシス", years: [] },
+      { id: "m3_93", category: "m3", section: "消化器系", en: "Polyps", ja: "ポリプ", years: [] },
+      { id: "m3_94", category: "m3", section: "消化器系", en: "Diverticulosis", ja: "憩室症", years: [] },
+      { id: "m3_95", category: "m3", section: "消化器系", en: "Diverticula", ja: "憩室", years: [] },
+      { id: "m3_96", category: "m3", section: "消化器系", en: "Diverticulitis", ja: "憩室炎", years: [] },
+      { id: "m3_97", category: "m3", section: "消化器系", en: "Gastroesophageal Reflux Disease (GERD)", ja: "胃食道逆流症", years: [] },
+      { id: "m3_98", category: "m3", section: "消化器系", en: "Hepatitis", ja: "肝炎", years: [] },
+      { id: "m3_99", category: "m3", section: "消化器系", en: "Inflammatory Bowel Disease (IBD)", ja: "炎症性腸疾患", years: [] },
+      { id: "m3_100", category: "m3", section: "消化器系", en: "Crohn disease", ja: "クローン病", years: [] },
+      { id: "m3_101", category: "m3", section: "消化器系", en: "Ulcerative colitis", ja: "潰瘍性大腸炎", years: [] },
+      { id: "m3_102", category: "m3", section: "消化器系", en: "Irritable Bowel Syndrome (IBS)", ja: "過敏性腸症候群", years: [] },
+      { id: "m3_103", category: "m3", section: "消化器系", en: "Hepatocellular Carcinoma (HCC)", ja: "肝細胞癌", years: [] },
+      { id: "m3_104", category: "m3", section: "消化器系", en: "Jaundice", ja: "黄疸", years: [] },
+      { id: "m3_105", category: "m3", section: "消化器系", en: "Hyperbilirubinemia", ja: "高ビリルビン血症", years: [] },
+      { id: "m3_106", category: "m3", section: "消化器系", en: "Peptic ulcer", ja: "消化性潰瘍", years: [] },
+      { id: "m3_107", category: "m3", section: "消化器系", en: "Abdominal CT scan", ja: "腹部CT", years: [] },
+      { id: "m3_108", category: "m3", section: "消化器系", en: "Abdominal MRI", ja: "腹部MRI", years: [] },
+      { id: "m3_109", category: "m3", section: "消化器系", en: "Abdominal ultrasonography", ja: "腹部超音波検査", years: [] },
+      { id: "m3_110", category: "m3", section: "消化器系", en: "Endoscopic ultrasonography", ja: "超音波内視鏡", years: [] },
+      { id: "m3_111", category: "m3", section: "消化器系", en: "Barium tests", ja: "バリウム検査", years: [] },
+      { id: "m3_112", category: "m3", section: "消化器系", en: "Barium enema (BE)", ja: "バリウム注腸検査（バリウム注腸）", years: [] },
+      { id: "m3_113", category: "m3", section: "消化器系", en: "Upper GI series", ja: "上部消化管造影", years: [] },
+      { id: "m3_114", category: "m3", section: "消化器系", en: "Cholangiography", ja: "胆管造影", years: [] },
+      { id: "m3_115", category: "m3", section: "消化器系", en: "Percutaneous Transhepatic Cholangiography (PTC)", ja: "経皮経肝胆管造影", years: [] },
+      { id: "m3_116", category: "m3", section: "消化器系", en: "Endoscopic Retrograde Cholangiopancreatography (ERCP)", ja: "内視鏡的逆行性胆管膵管造影", years: [] },
+      { id: "m3_117", category: "m3", section: "消化器系", en: "GI endoscopy", ja: "消化管内視鏡", years: [] },
+      { id: "m3_118", category: "m3", section: "消化器系", en: "Hemoccult test", ja: "便潜血検査", years: [] },
+      { id: "m3_119", category: "m3", section: "消化器系", en: "Laparoscopy", ja: "腹腔鏡検査", years: [] },
+      { id: "m3_120", category: "m3", section: "消化器系", en: "Liver function tests (LFTs)", ja: "肝機能検査", years: [] },
+      { id: "m3_121", category: "m3", section: "消化器系", en: "Alkaline phosphatase", ja: "アルカリフォスファターゼ", years: [] },
+      { id: "m3_122", category: "m3", section: "消化器系", en: "Stool culture", ja: "便培養", years: [] },
+      { id: "m3_123", category: "m3", section: "消化器系", en: "Anastomosis", ja: "吻合", years: [] },
+      { id: "m3_124", category: "m3", section: "消化器系", en: "Laparoscopic surgery", ja: "腹腔鏡下手術", years: [] },
+      { id: "m3_125", category: "m3", section: "消化器系", en: "Minimally invasive surgery", ja: "低侵襲手術", years: [] },
+      { id: "m3_126", category: "m3", section: "消化器系", en: "Keyhole surgery", ja: "キーホール手術", years: [] },
+      { id: "m3_127", category: "m3", section: "消化器系", en: "Alanine Aminotransferase (ALT)", ja: "アラニンアミノ基転移酵素", years: [] },
+      { id: "m3_128", category: "m3", section: "消化器系", en: "Aspartate Aminotransferase (AST)", ja: "アスパラギン酸アミノ基転移酵素", years: [] },
+      { id: "m3_129", category: "m3", section: "消化器系", en: "Gastrointestinal (GI)", ja: "胃腸の / 消化管の", years: [] },
+      { id: "m3_130", category: "m3", section: "消化器系", en: "Nil Per Os / Nothing by mouth (NPO)", ja: "絶飲食", years: [] },
+      { id: "m3_131", category: "m3", section: "消化器系", en: "Total Parenteral Nutrition (TPN)", ja: "完全静脈栄養", years: [] },
+
+      // 1-3. 内分泌系（Endocrine System） - 47語
+      { id: "m3_132", category: "m3", section: "内分泌系", en: "Pineal gland", ja: "松果体", years: [] },
+      { id: "m3_133", category: "m3", section: "内分泌系", en: "Hypothalamus", ja: "視床下部", years: [] },
+      { id: "m3_134", category: "m3", section: "内分泌系", en: "Pituitary gland", ja: "下垂体", years: [] },
+      { id: "m3_135", category: "m3", section: "内分泌系", en: "Thyroid gland", ja: "甲状腺", years: [] },
+      { id: "m3_136", category: "m3", section: "内分泌系", en: "Parathyroid gland", ja: "副甲状腺", years: [] },
+      { id: "m3_137", category: "m3", section: "内分泌系", en: "Adrenal glands", ja: "副腎", years: [] },
+      { id: "m3_138", category: "m3", section: "内分泌系", en: "Pancreas", ja: "膵臓", years: [] },
+      { id: "m3_139", category: "m3", section: "内分泌系", en: "Ovaries", ja: "卵巣", years: [] },
+      { id: "m3_140", category: "m3", section: "内分泌系", en: "Testis", ja: "精巣", years: [] },
+      { id: "m3_141", category: "m3", section: "内分泌系", en: "Adrenopathy", ja: "副腎症", years: [] },
+      { id: "m3_142", category: "m3", section: "内分泌系", en: "Adrenalectomy", ja: "副腎摘出術", years: [] },
+      { id: "m3_143", category: "m3", section: "内分泌系", en: "Hypophyseal", ja: "下垂体の", years: [] },
+      { id: "m3_144", category: "m3", section: "内分泌系", en: "Oophoritis", ja: "卵巣炎", years: [] },
+      { id: "m3_145", category: "m3", section: "内分泌系", en: "Ovarian cyst", ja: "卵巣嚢腫", years: [] },
+      { id: "m3_146", category: "m3", section: "内分泌系", en: "Orchitis", ja: "精巣炎", years: [] },
+      { id: "m3_147", category: "m3", section: "内分泌系", en: "Orchidectomy", ja: "精巣摘出術", years: [] },
+      { id: "m3_148", category: "m3", section: "内分泌系", en: "Pancreatectomy", ja: "膵摘出術", years: [] },
+      { id: "m3_149", category: "m3", section: "内分泌系", en: "Hyperparathyroidism", ja: "副甲状腺機能亢進症", years: [] },
+      { id: "m3_150", category: "m3", section: "内分泌系", en: "Hypopituitarism", ja: "下垂体機能低下症", years: [] },
+      { id: "m3_151", category: "m3", section: "内分泌系", en: "Thyroadenitis", ja: "甲状腺炎", years: [] },
+      { id: "m3_152", category: "m3", section: "内分泌系", en: "Thyroidectomy", ja: "甲状腺切除術", years: [] },
+      { id: "m3_153", category: "m3", section: "内分泌系", en: "Acromegaly", ja: "先端巨大症", years: [] },
+      { id: "m3_154", category: "m3", section: "内分泌系", en: "Cushing syndrome", ja: "クッシング症候群", years: [] },
+      { id: "m3_155", category: "m3", section: "内分泌系", en: "Hyperglycemia", ja: "高血糖", years: [] },
+      { id: "m3_156", category: "m3", section: "内分泌系", en: "Osteoporosis", ja: "骨粗鬆症", years: [] },
+      { id: "m3_157", category: "m3", section: "内分泌系", en: "Diabetes mellitus (DM)", ja: "糖尿病", years: [] },
+      { id: "m3_158", category: "m3", section: "内分泌系", en: "Goiter", ja: "甲状腺腫", years: [] },
+      { id: "m3_159", category: "m3", section: "内分泌系", en: "Hyperthyroidism", ja: "甲状腺機能亢進症", years: [] },
+      { id: "m3_160", category: "m3", section: "内分泌系", en: "Graves disease", ja: "バセドウ病", years: [] },
+      { id: "m3_161", category: "m3", section: "内分泌系", en: "Exophthalmic goiter", ja: "眼球突出性甲状腺腫", years: [] },
+      { id: "m3_162", category: "m3", section: "内分泌系", en: "Exophthalmos", ja: "眼球突出", years: [] },
+      { id: "m3_163", category: "m3", section: "内分泌系", en: "Exophthalmometry", ja: "眼球突出度測定", years: [] },
+      { id: "m3_164", category: "m3", section: "内分泌系", en: "Fasting blood sugar (FBS)", ja: "空腹時血糖", years: [] },
+      { id: "m3_165", category: "m3", section: "内分泌系", en: "RAIU test", ja: "放射性ヨード摂取率", years: [] },
+      { id: "m3_166", category: "m3", section: "内分泌系", en: "Serum and urine tests", ja: "血清・尿検査", years: [] },
+      { id: "m3_167", category: "m3", section: "内分泌系", en: "Thyroid function tests", ja: "甲状腺機能検査", years: [] },
+      { id: "m3_168", category: "m3", section: "内分泌系", en: "Thyroid scan", ja: "甲状腺スキャン", years: [] },
+      { id: "m3_169", category: "m3", section: "内分泌系", en: "CT/MRI", ja: "CT/MRI", years: [] },
+      { id: "m3_170", category: "m3", section: "内分泌系", en: "Adrenocorticotropic Hormone (ACTH)", ja: "副腎皮質刺激ホルモン", years: [] },
+      { id: "m3_171", category: "m3", section: "内分泌系", en: "Growth Hormone (GH)", ja: "成長ホルモン", years: [] },
+      { id: "m3_172", category: "m3", section: "内分泌系", en: "Glucose Tolerance Test (GTT)", ja: "経口ブドウ糖負荷試験", years: [] },
+      { id: "m3_173", category: "m3", section: "内分泌系", en: "Hemoglobin A1c (HbA1c)", ja: "ヘモグロビンA1c", years: [] },
+      { id: "m3_174", category: "m3", section: "内分泌系", en: "Potassium (K+)", ja: "カリウム", years: [] },
+      { id: "m3_175", category: "m3", section: "内分泌系", en: "Sodium (Na+)", ja: "ナトリウム", years: [] },
+      { id: "m3_176", category: "m3", section: "内分泌系", en: "Radioactive Iodine Uptake (RAIU)", ja: "放射性ヨード摂取率", years: [] },
+      { id: "m3_177", category: "m3", section: "内分泌系", en: "Triiodothyronine / Thyroxine (T3/T4)", ja: "トリヨードサイロニン / サイロキシン", years: [] },
+      { id: "m3_178", category: "m3", section: "内分泌系", en: "Thyroid-Stimulating Hormone (TSH)", ja: "甲状腺刺激ホルモン", years: [] },
+
+      // 1-4. 女性生殖器系（Female Reproductive System / OB-GYN） - 53語
+      { id: "m3_179", category: "m3", section: "女性生殖器系", en: "Ovum", ja: "卵子", years: [] },
+      { id: "m3_180", category: "m3", section: "女性生殖器系", en: "Ovary", ja: "卵巣", years: [] },
+      { id: "m3_181", category: "m3", section: "女性生殖器系", en: "Fallopian tube", ja: "卵管", years: [] },
+      { id: "m3_182", category: "m3", section: "女性生殖器系", en: "Uterus", ja: "子宮", years: [] },
+      { id: "m3_183", category: "m3", section: "女性生殖器系", en: "Cervix", ja: "子宮頸部", years: [] },
+      { id: "m3_184", category: "m3", section: "女性生殖器系", en: "Vagina", ja: "膣", years: [] },
+      { id: "m3_185", category: "m3", section: "女性生殖器系", en: "Breast", ja: "乳房", years: [] },
+      { id: "m3_186", category: "m3", section: "女性生殖器系", en: "Areola", ja: "乳輪", years: [] },
+      { id: "m3_187", category: "m3", section: "女性生殖器系", en: "Mammary papilla", ja: "乳頭", years: [] },
+      { id: "m3_188", category: "m3", section: "女性生殖器系", en: "Milk glands", ja: "乳腺", years: [] },
+      { id: "m3_189", category: "m3", section: "女性生殖器系", en: "Lymph nodes", ja: "リンパ節", years: [] },
+      { id: "m3_190", category: "m3", section: "女性生殖器系", en: "Cervical", ja: "子宮頸部の", years: [] },
+      { id: "m3_191", category: "m3", section: "女性生殖器系", en: "Colposcopy", ja: "膣鏡診（コルポスコピー）", years: [] },
+      { id: "m3_192", category: "m3", section: "女性生殖器系", en: "Vaginitis", ja: "膣炎", years: [] },
+      { id: "m3_193", category: "m3", section: "女性生殖器系", en: "Hysterectomy", ja: "子宮全摘出術", years: [] },
+      { id: "m3_194", category: "m3", section: "女性生殖器系", en: "Mammogram", ja: "乳房X線写真", years: [] },
+      { id: "m3_195", category: "m3", section: "女性生殖器系", en: "Endometrium", ja: "子宮内膜", years: [] },
+      { id: "m3_196", category: "m3", section: "女性生殖器系", en: "Uterine", ja: "子宮の", years: [] },
+      { id: "m3_197", category: "m3", section: "女性生殖器系", en: "Oocyte", ja: "卵母細胞", years: [] },
+      { id: "m3_198", category: "m3", section: "女性生殖器系", en: "Oophorectomy", ja: "卵巣摘出術", years: [] },
+      { id: "m3_199", category: "m3", section: "女性生殖器系", en: "Ovarian cancer", ja: "卵巣癌", years: [] },
+      { id: "m3_200", category: "m3", section: "女性生殖器系", en: "Salpingectomy", ja: "卵管切除術", years: [] },
+      { id: "m3_201", category: "m3", section: "女性生殖器系", en: "Amenorrhea", ja: "無月経", years: [] },
+      { id: "m3_202", category: "m3", section: "女性生殖器系", en: "Dysmenorrhea", ja: "月経困難症", years: [] },
+      { id: "m3_203", category: "m3", section: "女性生殖器系", en: "Ectopic pregnancy", ja: "異所性妊娠（子宮外妊娠）", years: [] },
+      { id: "m3_204", category: "m3", section: "女性生殖器系", en: "Endometriosis", ja: "子宮内膜症", years: [] },
+      { id: "m3_205", category: "m3", section: "女性生殖器系", en: "Fibroids", ja: "子宮筋腫", years: [] },
+      { id: "m3_206", category: "m3", section: "女性生殖器系", en: "Leiomyomas", ja: "平滑筋腫", years: [] },
+      { id: "m3_207", category: "m3", section: "女性生殖器系", en: "Visceral muscle", ja: "内臓筋（平滑筋）", years: [] },
+      { id: "m3_208", category: "m3", section: "女性生殖器系", en: "Menorrhagia", ja: "過多月経", years: [] },
+      { id: "m3_209", category: "m3", section: "女性生殖器系", en: "Pelvic inflammatory disease (PID)", ja: "骨盤内炎症性疾患", years: [] },
+      { id: "m3_210", category: "m3", section: "女性生殖器系", en: "Salpingitis", ja: "卵管炎", years: [] },
+      { id: "m3_211", category: "m3", section: "女性生殖器系", en: "Mammography", ja: "乳房X線撮影法", years: [] },
+      { id: "m3_212", category: "m3", section: "女性生殖器系", en: "Pap smear", ja: "子宮頸部細胞診", years: [] },
+      { id: "m3_213", category: "m3", section: "女性生殖器系", en: "Pelvic ultrasonography", ja: "骨盤腔超音波検査", years: [] },
+      { id: "m3_214", category: "m3", section: "女性生殖器系", en: "Pregnancy test", ja: "妊娠検査", years: [] },
+      { id: "m3_215", category: "m3", section: "女性生殖器系", en: "Amniocentesis", ja: "羊水穿刺", years: [] },
+      { id: "m3_216", category: "m3", section: "女性生殖器系", en: "Aspiration", ja: "吸引法（穿刺吸引）", years: [] },
+      { id: "m3_217", category: "m3", section: "女性生殖器系", en: "Conization", ja: "子宮頸部円錐切除術", years: [] },
+      { id: "m3_218", category: "m3", section: "女性生殖器系", en: "Hysterosalpingography", ja: "子宮卵管造影法", years: [] },
+      { id: "m3_219", category: "m3", section: "女性生殖器系", en: "Cauterization", ja: "焼灼術", years: [] },
+      { id: "m3_220", category: "m3", section: "女性生殖器系", en: "Cryosurgery", ja: "凍結手術", years: [] },
+      { id: "m3_221", category: "m3", section: "女性生殖器系", en: "Dilation and curettage (D&C)", ja: "子宮頸管拡張掻爬術", years: [] },
+      { id: "m3_222", category: "m3", section: "女性生殖器系", en: "Myomectomy", ja: "子宮筋腫核出術", years: [] },
+      { id: "m3_223", category: "m3", section: "女性生殖器系", en: "Uterine artery embolization", ja: "子宮動脈塞栓術", years: [] },
+      { id: "m3_224", category: "m3", section: "女性生殖器系", en: "Tubal ligation", ja: "卵管結紮術", years: [] },
+      { id: "m3_225", category: "m3", section: "女性生殖器系", en: "Cesarean Section (CS)", ja: "帝王切開術", years: [] },
+      { id: "m3_226", category: "m3", section: "女性生殖器系", en: "Dysfunctional Uterine Bleeding (DUB)", ja: "機能性子宮出血", years: [] },
+      { id: "m3_227", category: "m3", section: "女性生殖器系", en: "Gynecology (GYN)", ja: "婦人科学", years: [] },
+      { id: "m3_228", category: "m3", section: "女性生殖器系", en: "Hormone Replacement Therapy (HRT)", ja: "ホルモン補充療法", years: [] },
+      { id: "m3_229", category: "m3", section: "女性生殖器系", en: "In Vitro Fertilization (IVF)", ja: "体外受精", years: [] },
+      { id: "m3_230", category: "m3", section: "女性生殖器系", en: "Obstetrics (OB)", ja: "産科学", years: [] },
+      { id: "m3_231", category: "m3", section: "女性生殖器系", en: "Sexually Transmitted Infection (STI)", ja: "性感染症", years: [] },
+      { id: "m3_232", category: "m3", section: "女性生殖器系", en: "Total Abdominal Hysterectomy with Bilateral Salpingo-Oophorectomy (TAH-BSO)", ja: "腹式単純子宮全摘出術+両側卵管卵巣摘出術", years: [] },
+
+      // 1-5. リンパ系（Lymphatic System） - 28語
+      { id: "m3_233", category: "m3", section: "リンパ系", en: "Cervical lymph nodes", ja: "頸部リンパ節", years: [] },
+      { id: "m3_234", category: "m3", section: "リンパ系", en: "Axillary lymph nodes", ja: "腋窩リンパ節", years: [] },
+      { id: "m3_235", category: "m3", section: "リンパ系", en: "Mediastinal lymph nodes", ja: "縦隔リンパ節", years: [] },
+      { id: "m3_236", category: "m3", section: "リンパ系", en: "Thymus gland", ja: "胸腺", years: [] },
+      { id: "m3_237", category: "m3", section: "リンパ系", en: "Spleen", ja: "脾臓", years: [] },
+      { id: "m3_238", category: "m3", section: "リンパ系", en: "Inguinal lymph nodes", ja: "鼠径リンパ節", years: [] },
+      { id: "m3_239", category: "m3", section: "リンパ系", en: "Lymph vessels", ja: "リンパ管", years: [] },
+      { id: "m3_240", category: "m3", section: "リンパ系", en: "Vein that receives lymph", ja: "リンパ液が流入する静脈", years: [] },
+      { id: "m3_241", category: "m3", section: "リンパ系", en: "Lymphedema", ja: "リンパ浮腫", years: [] },
+      { id: "m3_242", category: "m3", section: "リンパ系", en: "Lymphadenectomy", ja: "リンパ節切除術", years: [] },
+      { id: "m3_243", category: "m3", section: "リンパ系", en: "Lymphadenopathy", ja: "リンパ節腫脹（病態）", years: [] },
+      { id: "m3_244", category: "m3", section: "リンパ系", en: "Lymphangiectasis", ja: "リンパ管拡張症", years: [] },
+      { id: "m3_245", category: "m3", section: "リンパ系", en: "Splenomegaly", ja: "脾腫（脾臓腫大）", years: [] },
+      { id: "m3_246", category: "m3", section: "リンパ系", en: "Thymoma", ja: "胸腺腫", years: [] },
+      { id: "m3_247", category: "m3", section: "リンパ系", en: "Acquired Immunodeficiency Syndrome (AIDS)", ja: "後天性免疫不全症候群", years: [] },
+      { id: "m3_248", category: "m3", section: "リンパ系", en: "Lymphoma", ja: "リンパ腫", years: [] },
+      { id: "m3_249", category: "m3", section: "リンパ系", en: "Hodgkin lymphoma", ja: "ホジキンリンパ腫", years: [] },
+      { id: "m3_250", category: "m3", section: "リンパ系", en: "Mononucleosis", ja: "伝染性単核球症", years: [] },
+      { id: "m3_251", category: "m3", section: "リンパ系", en: "Sarcoidosis", ja: "サルコイドーシス", years: [] },
+      { id: "m3_252", category: "m3", section: "リンパ系", en: "Enzyme-Linked Immunosorbent Assay (ELISA)", ja: "酵素免疫測定法", years: [] },
+      { id: "m3_253", category: "m3", section: "リンパ系", en: "Western blot test", ja: "ウェスタンブロット法", years: [] },
+      { id: "m3_254", category: "m3", section: "リンパ系", en: "Chemotherapy", ja: "化学療法", years: [] },
+      { id: "m3_255", category: "m3", section: "リンパ系", en: "Multiple myeloma", ja: "多発性骨髄腫", years: [] },
+      { id: "m3_256", category: "m3", section: "リンパ系", en: "Radiotherapy", ja: "放射線療法", years: [] },
+      { id: "m3_257", category: "m3", section: "リンパ系", en: "Highly Active Antiretroviral Therapy (HAART)", ja: "多剤併用抗レトロウイルス療法", years: [] },
+      { id: "m3_258", category: "m3", section: "リンパ系", en: "Human Immunodeficiency Virus (HIV)", ja: "ヒト免疫不全ウイルス", years: [] },
+      { id: "m3_259", category: "m3", section: "リンパ系", en: "Mycobacterium avium-intracellulare complex (MAC)", ja: "非結核性抗酸菌（MAC）", years: [] },
+      { id: "m3_260", category: "m3", section: "リンパ系", en: "Pneumocystis pneumonia (PCP)", ja: "ニューモシスチス肺炎", years: [] },
+
+      // 1-6. 男性生殖器系（Male Reproductive System） - 35語
+      { id: "m3_261", category: "m3", section: "男性生殖器系", en: "Testis", ja: "精巣（睾丸）", years: [] },
+      { id: "m3_262", category: "m3", section: "男性生殖器系", en: "Scrotum", ja: "陰嚢", years: [] },
+      { id: "m3_263", category: "m3", section: "男性生殖器系", en: "Vas deferens", ja: "精管", years: [] },
+      { id: "m3_264", category: "m3", section: "男性生殖器系", en: "Glands supplying semen", ja: "精液を供給する腺", years: [] },
+      { id: "m3_265", category: "m3", section: "男性生殖器系", en: "Prostate gland", ja: "前立腺", years: [] },
+      { id: "m3_266", category: "m3", section: "男性生殖器系", en: "Ureter", ja: "尿管", years: [] },
+      { id: "m3_267", category: "m3", section: "男性生殖器系", en: "Urinary bladder", ja: "膀胱", years: [] },
+      { id: "m3_268", category: "m3", section: "男性生殖器系", en: "Urethra", ja: "尿道", years: [] },
+      { id: "m3_269", category: "m3", section: "男性生殖器系", en: "Penis", ja: "陰茎", years: [] },
+      { id: "m3_270", category: "m3", section: "男性生殖器系", en: "Balanitis", ja: "亀頭炎", years: [] },
+      { id: "m3_271", category: "m3", section: "男性生殖器系", en: "Orchitis", ja: "精巣炎", years: [] },
+      { id: "m3_272", category: "m3", section: "男性生殖器系", en: "Orchiectomy / Orchidectomy", ja: "精巣摘出術", years: [] },
+      { id: "m3_273", category: "m3", section: "男性生殖器系", en: "Prostatectomy", ja: "前立腺切除術", years: [] },
+      { id: "m3_274", category: "m3", section: "男性生殖器系", en: "Scrotal", ja: "陰嚢の", years: [] },
+      { id: "m3_275", category: "m3", section: "男性生殖器系", en: "Urethritis", ja: "尿道炎", years: [] },
+      { id: "m3_276", category: "m3", section: "男性生殖器系", en: "Vasectomy", ja: "精管切除術", years: [] },
+      { id: "m3_277", category: "m3", section: "男性生殖器系", en: "Benign Prostatic Hyperplasia (BPH)", ja: "前立腺肥大症", years: [] },
+      { id: "m3_278", category: "m3", section: "男性生殖器系", en: "Cryptorchism", ja: "未下降精巣（留睾症）", years: [] },
+      { id: "m3_279", category: "m3", section: "男性生殖器系", en: "Hydrocele", ja: "陰嚢水腫", years: [] },
+      { id: "m3_280", category: "m3", section: "男性生殖器系", en: "Prostatic carcinoma", ja: "前立腺癌", years: [] },
+      { id: "m3_281", category: "m3", section: "男性生殖器系", en: "Sexually Transmitted Infection(s) (STI)", ja: "性感染症", years: [] },
+      { id: "m3_282", category: "m3", section: "男性生殖器系", en: "Chlamydial infection", ja: "クラミジア感染症", years: [] },
+      { id: "m3_283", category: "m3", section: "男性生殖器系", en: "Gonorrhea", ja: "淋病（淋菌感染症）", years: [] },
+      { id: "m3_284", category: "m3", section: "男性生殖器系", en: "Herpes genitalis", ja: "性器ヘルペス", years: [] },
+      { id: "m3_285", category: "m3", section: "男性生殖器系", en: "Syphilis", ja: "梅毒", years: [] },
+      { id: "m3_286", category: "m3", section: "男性生殖器系", en: "Testicular carcinoma", ja: "精巣癌", years: [] },
+      { id: "m3_287", category: "m3", section: "男性生殖器系", en: "Seminoma", ja: "セミノーマ（精上皮腫）", years: [] },
+      { id: "m3_288", category: "m3", section: "男性生殖器系", en: "Varicocele", ja: "精索静脈瘤", years: [] },
+      { id: "m3_289", category: "m3", section: "男性生殖器系", en: "Digital Rectal Examination (DRE)", ja: "直腸診（直腸指診）", years: [] },
+      { id: "m3_290", category: "m3", section: "男性生殖器系", en: "Prostate-Specific Antigen (PSA)", ja: "前立腺特異抗原", years: [] },
+      { id: "m3_291", category: "m3", section: "男性生殖器系", en: "Semen analysis", ja: "精液検査", years: [] },
+      { id: "m3_292", category: "m3", section: "男性生殖器系", en: "Orchiopexy", ja: "精巣固定術", years: [] },
+      { id: "m3_293", category: "m3", section: "男性生殖器系", en: "Transurethral Resection of the Prostate (TURP)", ja: "経尿道的前立腺切除術", years: [] },
+      { id: "m3_294", category: "m3", section: "男性生殖器系", en: "Photoselective vaporization of the prostate", ja: "光選択的前立腺レーザー蒸散術", years: [] },
+      { id: "m3_295", category: "m3", section: "男性生殖器系", en: "Genitourinary (GU)", ja: "泌尿生殖器の", years: [] },
+
+      // ==========================================
+      // 2. 精神神経医学 必修英単語 (全245語)
+      // ==========================================
+      { id: "psy_1", category: "psychiatry", section: "精神神経医学", en: "Anton syndrome", ja: "アントン症候群", years: [] },
+      { id: "psy_2", category: "psychiatry", section: "精神神経医学", en: "abuse", ja: "虐待", years: ["24", "23"] },
+      { id: "psy_3", category: "psychiatry", section: "精神神経医学", en: "acalculia", ja: "失算", years: ["19"] },
+      { id: "psy_4", category: "psychiatry", section: "精神神経医学", en: "acute and transient psychotic disorder", ja: "急性一過性精神病性障害", years: [] },
+      { id: "psy_5", category: "psychiatry", section: "精神神経医学", en: "acute confusional state", ja: "急性錯乱状態", years: [] },
+      { id: "psy_6", category: "psychiatry", section: "精神神経医学", en: "addiction", ja: "嗜癖", years: ["21", "20"] },
+      { id: "psy_7", category: "psychiatry", section: "精神神経医学", en: "adherence", ja: "アドヒアランス", years: [] },
+      { id: "psy_8", category: "psychiatry", section: "精神神経医学", en: "affective disorder", ja: "感情障害", years: ["24", "23", "22", "21", "20", "19"] },
+      { id: "psy_9", category: "psychiatry", section: "精神神経医学", en: "agonist", ja: "作動物質", years: [] },
+      { id: "psy_10", category: "psychiatry", section: "精神神経医学", en: "alcohol dependence", ja: "アルコール依存", years: [] },
+      { id: "psy_11", category: "psychiatry", section: "精神神経医学", en: "alcohol withdrawal delirium", ja: "アルコール離脱せん妄", years: ["21", "20"] },
+      { id: "psy_12", category: "psychiatry", section: "精神神経医学", en: "alcoholic psychosis", ja: "アルコール精神病", years: [] },
+      { id: "psy_13", category: "psychiatry", section: "精神神経医学", en: "alcoholics anonymous (AA)", ja: "アルコール患者匿名会", years: [] },
+      { id: "psy_14", category: "psychiatry", section: "精神神経医学", en: "alcoholism", ja: "アルコール症", years: [] },
+      { id: "psy_15", category: "psychiatry", section: "精神神経医学", en: "alexia", ja: "失読", years: [] },
+      { id: "psy_16", category: "psychiatry", section: "精神神経医学", en: "alexithymia", ja: "失感情症、アレキシサイミア", years: [] },
+      { id: "psy_17", category: "psychiatry", section: "精神神経医学", en: "alpha wave", ja: "アルファ波", years: [] },
+      { id: "psy_18", category: "psychiatry", section: "精神神経医学", en: "Alzheimer's disease", ja: "アルツハイマー病", years: [] },
+      { id: "psy_19", category: "psychiatry", section: "精神神経医学", en: "ambivalence", ja: "両価性", years: [] },
+      { id: "psy_20", category: "psychiatry", section: "精神神経医学", en: "Amentia 【独】", ja: "アメンチア", years: [] },
+      { id: "psy_21", category: "psychiatry", section: "精神神経医学", en: "amphetamine", ja: "アンフェタミン", years: [] },
+      { id: "psy_22", category: "psychiatry", section: "精神神経医学", en: "amphetamine psychosis", ja: "覚醒剤精神病", years: [] },
+      { id: "psy_23", category: "psychiatry", section: "精神神経医学", en: "anniversary reaction", ja: "記念日反応", years: [] },
+      { id: "psy_24", category: "psychiatry", section: "精神神経医学", en: "anorexia nervosa", ja: "神経性無食欲症", years: ["21", "20"] },
+      { id: "psy_25", category: "psychiatry", section: "精神神経医学", en: "anosognosia", ja: "病態失認", years: [] },
+      { id: "psy_26", category: "psychiatry", section: "精神神経医学", en: "antagonist", ja: "拮抗物質", years: ["21", "20"] },
+      { id: "psy_27", category: "psychiatry", section: "精神神経医学", en: "anticipatory anxiety", ja: "予期不安", years: ["24", "23"] },
+      { id: "psy_28", category: "psychiatry", section: "精神神経医学", en: "aphonia", ja: "失声", years: [] },
+      { id: "psy_29", category: "psychiatry", section: "精神神経医学", en: "apallic syndrome", ja: "失外套症候群", years: [] },
+      { id: "psy_30", category: "psychiatry", section: "精神神経医学", en: "Asperger syndrome", ja: "アスペルガー症候群", years: [] },
+      { id: "psy_31", category: "psychiatry", section: "精神神経医学", en: "attachment disorder of childhood", ja: "小児期の愛着障害", years: [] },
+      { id: "psy_32", category: "psychiatry", section: "精神神経医学", en: "ataxia", ja: "運動失調", years: [] },
+      { id: "psy_33", category: "psychiatry", section: "精神神経医学", en: "attention-deficit/hyperactivity disorder", ja: "注意欠如・多動性障害(注意欠如・多動症)", years: [] },
+      { id: "psy_34", category: "psychiatry", section: "精神神経医学", en: "athetosis", ja: "アテトーゼ", years: [] },
+      { id: "psy_35", category: "psychiatry", section: "精神神経医学", en: "audible thoughts", ja: "考想化声", years: [] },
+      { id: "psy_36", category: "psychiatry", section: "精神神経医学", en: "auditory hallucination", ja: "幻聴", years: ["21", "20", "19"] },
+      { id: "psy_37", category: "psychiatry", section: "精神神経医学", en: "autism", ja: "自閉", years: [] },
+      { id: "psy_38", category: "psychiatry", section: "精神神経医学", en: "autism spectrum disorder", ja: "自閉症スペクトラム障害(自閉スペクトラム症)", years: [] },
+      { id: "psy_39", category: "psychiatry", section: "精神神経医学", en: "bipolar disorders", ja: "双極性障害", years: [] },
+      { id: "psy_40", category: "psychiatry", section: "精神神経医学", en: "blunted affect", ja: "感情鈍麻", years: ["23"] },
+      { id: "psy_41", category: "psychiatry", section: "精神神経医学", en: "borderline intellectual functioning", ja: "境界知能", years: [] },
+      { id: "psy_42", category: "psychiatry", section: "精神神経医学", en: "brain death", ja: "脳死", years: [] },
+      { id: "psy_43", category: "psychiatry", section: "精神神経医学", en: "bulimia nervosa", ja: "神経性大食症", years: [] },
+      { id: "psy_44", category: "psychiatry", section: "精神神経医学", en: "battered-child syndrome", ja: "被虐待児症候群", years: [] },
+      { id: "psy_45", category: "psychiatry", section: "精神神経医学", en: "Capgras syndrome", ja: "カプグラ症候群", years: [] },
+      { id: "psy_46", category: "psychiatry", section: "精神神経医学", en: "catalepsy", ja: "カタレプシー", years: [] },
+      { id: "psy_47", category: "psychiatry", section: "精神神経医学", en: "catatonia", ja: "緊張病", years: ["22", "21"] },
+      { id: "psy_48", category: "psychiatry", section: "精神神経医学", en: "child psychiatry", ja: "児童精神医学", years: [] },
+      { id: "psy_49", category: "psychiatry", section: "精神神経医学", en: "childhood autism", ja: "小児自閉症", years: [] },
+      { id: "psy_50", category: "psychiatry", section: "精神神経医学", en: "chocked disc", ja: "うっ血乳頭", years: [] },
+      { id: "psy_51", category: "psychiatry", section: "精神神経医学", en: "circadian rhythm", ja: "概日リズム", years: ["21", "20"] },
+      { id: "psy_52", category: "psychiatry", section: "精神神経医学", en: "clonic convulsion", ja: "間代けいれん", years: [] },
+      { id: "psy_53", category: "psychiatry", section: "精神神経医学", en: "comorbidity", ja: "共存症", years: [] },
+      { id: "psy_54", category: "psychiatry", section: "精神神経医学", en: "compulsive act", ja: "強迫行為", years: [] },
+      { id: "psy_55", category: "psychiatry", section: "精神神経医学", en: "conduct disorder", ja: "素行障害(素行症)", years: [] },
+      { id: "psy_56", category: "psychiatry", section: "精神神経医学", en: "confabulation", ja: "作話", years: ["24", "23"] },
+      { id: "psy_57", category: "psychiatry", section: "精神神経医学", en: "confusion", ja: "錯乱", years: ["22", "21"] },
+      { id: "psy_58", category: "psychiatry", section: "精神神経医学", en: "consciousness", ja: "意識", years: [] },
+      { id: "psy_59", category: "psychiatry", section: "精神神経医学", en: "counter-transference", ja: "逆転移", years: ["21", "20"] },
+      { id: "psy_60", category: "psychiatry", section: "精神神経医学", en: "conversion disorder", ja: "転換性障害", years: [] },
+      { id: "psy_61", category: "psychiatry", section: "精神神経医学", en: "coping", ja: "対処", years: ["22", "21", "20"] },
+      { id: "psy_62", category: "psychiatry", section: "精神神経医学", en: "coprolalia", ja: "汚言", years: [] },
+      { id: "psy_63", category: "psychiatry", section: "精神神経医学", en: "criminal responsibility", ja: "責任能力", years: [] },
+      { id: "psy_64", category: "psychiatry", section: "精神神経医学", en: "defect state", ja: "欠陥状態", years: [] },
+      { id: "psy_65", category: "psychiatry", section: "精神神経医学", en: "déjà vu", ja: "既視感", years: [] },
+      { id: "psy_66", category: "psychiatry", section: "精神神経医学", en: "delusion", ja: "妄想", years: [] },
+      { id: "psy_67", category: "psychiatry", section: "精神神経医学", en: "delusion of control", ja: "させられ体験(作為体験)", years: ["19"] },
+      { id: "psy_68", category: "psychiatry", section: "精神神経医学", en: "delusion of guilt", ja: "罪業妄想", years: [] },
+      { id: "psy_69", category: "psychiatry", section: "精神神経医学", en: "delusion of observation", ja: "注察妄想", years: ["22", "21", "20"] },
+      { id: "psy_70", category: "psychiatry", section: "精神神経医学", en: "delusion of persecution", ja: "被害妄想", years: [] },
+      { id: "psy_71", category: "psychiatry", section: "精神神経医学", en: "delusion of poisoning", ja: "被毒妄想", years: [] },
+      { id: "psy_72", category: "psychiatry", section: "精神神経医学", en: "delusion of reference", ja: "関係妄想", years: ["24", "23"] },
+      { id: "psy_73", category: "psychiatry", section: "精神神経医学", en: "delusional disorder", ja: "妄想性障害", years: [] },
+      { id: "psy_74", category: "psychiatry", section: "精神神経医学", en: "delusional mood", ja: "妄想気分", years: [] },
+      { id: "psy_75", category: "psychiatry", section: "精神神経医学", en: "delusional perception", ja: "妄想知覚", years: ["19"] },
+      { id: "psy_76", category: "psychiatry", section: "精神神経医学", en: "depressive episode", ja: "うつ病エピソード", years: [] },
+      { id: "psy_77", category: "psychiatry", section: "精神神経医学", en: "dependence", ja: "依存", years: [] },
+      { id: "psy_78", category: "psychiatry", section: "精神神経医学", en: "depersonalization", ja: "離人症", years: [] },
+      { id: "psy_79", category: "psychiatry", section: "精神神経医学", en: "depression", ja: "うつ病", years: [] },
+      { id: "psy_80", category: "psychiatry", section: "精神神経医学", en: "depressive mood", ja: "抑うつ気分", years: [] },
+      { id: "psy_81", category: "psychiatry", section: "精神神経医学", en: "disorientation", ja: "失見当識", years: [] },
+      { id: "psy_82", category: "psychiatry", section: "精神神経医学", en: "dissociation", ja: "解離", years: [] },
+      { id: "psy_83", category: "psychiatry", section: "精神神経医学", en: "dissociative amnesia", ja: "解離性健忘", years: [] },
+      { id: "psy_84", category: "psychiatry", section: "精神神経医学", en: "dissociative disorder", ja: "解離性障害", years: [] },
+      { id: "psy_85", category: "psychiatry", section: "精神神経医学", en: "dissociative fugue", ja: "解離性遁走", years: ["24", "23"] },
+      { id: "psy_86", category: "psychiatry", section: "精神神経医学", en: "dissociative hysteria", ja: "解離性ヒステリー", years: [] },
+      { id: "psy_87", category: "psychiatry", section: "精神神経医学", en: "diurnal changes", ja: "日内変動", years: [] },
+      { id: "psy_88", category: "psychiatry", section: "精神神経医学", en: "domestic violence", ja: "家庭内暴力", years: [] },
+      { id: "psy_89", category: "psychiatry", section: "精神神経医学", en: "duration of untreated psychosis (DUP)", ja: "精神病未治療期間", years: ["24"] },
+      { id: "psy_90", category: "psychiatry", section: "精神神経医学", en: "dysarthria", ja: "構語障害", years: [] },
+      { id: "psy_91", category: "psychiatry", section: "精神神経医学", en: "dysphagia", ja: "嚥下障害", years: ["20"] },
+      { id: "psy_92", category: "psychiatry", section: "精神神経医学", en: "dysthymia", ja: "気分変調症", years: [] },
+      { id: "psy_93", category: "psychiatry", section: "精神神経医学", en: "early psychosis", ja: "早期精神病", years: [] },
+      { id: "psy_94", category: "psychiatry", section: "精神神経医学", en: "echolalia", ja: "反響言語", years: [] },
+      { id: "psy_95", category: "psychiatry", section: "精神神経医学", en: "elective mutism", ja: "選択性緘黙", years: ["24", "23"] },
+      { id: "psy_96", category: "psychiatry", section: "精神神経医学", en: "emotional incontinence", ja: "情動失禁", years: [] },
+      { id: "psy_97", category: "psychiatry", section: "精神神経医学", en: "empathy", ja: "感情移入", years: [] },
+      { id: "psy_98", category: "psychiatry", section: "精神神経医学", en: "episodic memory", ja: "エピソード記憶", years: [] },
+      { id: "psy_99", category: "psychiatry", section: "精神神経医学", en: "euthanasia", ja: "安楽死", years: [] },
+      { id: "psy_100", category: "psychiatry", section: "精神神経医学", en: "expressed emotion (EE)", ja: "感情表出", years: [] },
+      { id: "psy_101", category: "psychiatry", section: "精神神経医学", en: "factitious disorder", ja: "虚偽性障害", years: [] },
+      { id: "psy_102", category: "psychiatry", section: "精神神経医学", en: "first rank symptoms", ja: "一級症状", years: [] },
+      { id: "psy_103", category: "psychiatry", section: "精神神経医学", en: "flattening of affect", ja: "情動平板化", years: ["19"] },
+      { id: "psy_104", category: "psychiatry", section: "精神神経医学", en: "flight of ideas", ja: "観念奔逸", years: [] },
+      { id: "psy_105", category: "psychiatry", section: "精神神経医学", en: "forensic psychiatry", ja: "司法精神医学", years: [] },
+      { id: "psy_106", category: "psychiatry", section: "精神神経医学", en: "fugue", ja: "遁走", years: [] },
+      { id: "psy_107", category: "psychiatry", section: "精神神経医学", en: "Ganser syndrome", ja: "ガンザー症候群", years: [] },
+      { id: "psy_108", category: "psychiatry", section: "精神神経医学", en: "generalized anxiety disorder", ja: "全般性不安障害", years: [] },
+      { id: "psy_109", category: "psychiatry", section: "精神神経医学", en: "gender dysphoria", ja: "性別違和", years: ["24", "23"] },
+      { id: "psy_110", category: "psychiatry", section: "精神神経医学", en: "gender identity", ja: "性同一性", years: ["20"] },
+      { id: "psy_111", category: "psychiatry", section: "精神神経医学", en: "(Gilles de la) Tourette syndrome", ja: "(ジル・ドゥ・ラ・) トゥレット症候群", years: [] },
+      { id: "psy_112", category: "psychiatry", section: "精神神経医学", en: "hallucination", ja: "幻覚", years: ["21"] },
+      { id: "psy_113", category: "psychiatry", section: "精神神経医学", en: "hallucinogen", ja: "幻覚剤", years: [] },
+      { id: "psy_114", category: "psychiatry", section: "精神神経医学", en: "handedness", ja: "利き手", years: [] },
+      { id: "psy_115", category: "psychiatry", section: "精神神経医学", en: "hepatic encephalopathy", ja: "肝性脳症", years: [] },
+      { id: "psy_116", category: "psychiatry", section: "精神神経医学", en: "hyperkinetic disorder", ja: "多動性障害", years: ["23", "19"] },
+      { id: "psy_117", category: "psychiatry", section: "精神神経医学", en: "hyperventilation syndrome", ja: "過換気症候群", years: [] },
+      { id: "psy_118", category: "psychiatry", section: "精神神経医学", en: "hypnosis", ja: "催眠", years: ["20"] },
+      { id: "psy_119", category: "psychiatry", section: "精神神経医学", en: "hypochondriasis", ja: "心気症", years: [] },
+      { id: "psy_120", category: "psychiatry", section: "精神神経医学", en: "idea of suicide", ja: "自殺念慮", years: [] },
+      { id: "psy_121", category: "psychiatry", section: "精神神経医学", en: "ideational apraxia", ja: "観念失行", years: [] },
+      { id: "psy_122", category: "psychiatry", section: "精神神経医学", en: "ideomotor apraxia", ja: "観念運動失行", years: [] },
+      { id: "psy_123", category: "psychiatry", section: "精神神経医学", en: "illusion", ja: "錯覚", years: [] },
+      { id: "psy_124", category: "psychiatry", section: "精神神経医学", en: "induced psychosis", ja: "感応精神病", years: [] },
+      { id: "psy_125", category: "psychiatry", section: "精神神経医学", en: "insight into disease", ja: "病識", years: ["20"] },
+      { id: "psy_126", category: "psychiatry", section: "精神神経医学", en: "insomnia", ja: "不眠", years: ["24", "23", "21"] },
+      { id: "psy_127", category: "psychiatry", section: "精神神経医学", en: "institutionalism", ja: "施設症", years: [] },
+      { id: "psy_128", category: "psychiatry", section: "精神神経医学", en: "intellectual disabilities", ja: "知的能力障害群", years: [] },
+      { id: "psy_129", category: "psychiatry", section: "精神神経医学", en: "intelligence quotient: IQ", ja: "知能指数", years: [] },
+      { id: "psy_130", category: "psychiatry", section: "精神神経医学", en: "intensive care unit syndrome", ja: "ICU症候群", years: [] },
+      { id: "psy_131", category: "psychiatry", section: "精神神経医学", en: "intention tremor", ja: "企図振戦", years: [] },
+      { id: "psy_132", category: "psychiatry", section: "精神神経医学", en: "Lewy body disease", ja: "レビー小体病", years: [] },
+      { id: "psy_133", category: "psychiatry", section: "精神神経医学", en: "loosening of association", ja: "連合弛緩", years: ["22", "21"] },
+      { id: "psy_134", category: "psychiatry", section: "精神神経医学", en: "magnetic resonance imaging", ja: "MRI 磁気共鳴画像", years: [] },
+      { id: "psy_135", category: "psychiatry", section: "精神神経医学", en: "major depressive disorder", ja: "大うつ病性障害", years: [] },
+      { id: "psy_136", category: "psychiatry", section: "精神神経医学", en: "malingering", ja: "詐病", years: [] },
+      { id: "psy_137", category: "psychiatry", section: "精神神経医学", en: "mannerism", ja: "奇異症(街奇症)", years: [] },
+      { id: "psy_138", category: "psychiatry", section: "精神神経医学", en: "memory", ja: "記憶", years: [] },
+      { id: "psy_139", category: "psychiatry", section: "精神神経医学", en: "mental retardation", ja: "精神発達遅滞", years: [] },
+      { id: "psy_140", category: "psychiatry", section: "精神神経医学", en: "mood stabilizer", ja: "気分安定薬", years: ["24", "23", "20"] },
+      { id: "psy_141", category: "psychiatry", section: "精神神経医学", en: "morning fatigue", ja: "朝方抑うつ", years: [] },
+      { id: "psy_142", category: "psychiatry", section: "精神神経医学", en: "moria", ja: "ふざけ症", years: [] },
+      { id: "psy_143", category: "psychiatry", section: "精神神経医学", en: "Morita therapy", ja: "森田療法", years: [] },
+      { id: "psy_144", category: "psychiatry", section: "精神神経医学", en: "motor aphasia", ja: "運動失語", years: [] },
+      { id: "psy_145", category: "psychiatry", section: "精神神経医学", en: "motor impersistence", ja: "運動維持困難", years: [] },
+      { id: "psy_146", category: "psychiatry", section: "精神神経医学", en: "motor neglect", ja: "運動無視", years: [] },
+      { id: "psy_147", category: "psychiatry", section: "精神神経医学", en: "music therapy", ja: "音楽療法", years: [] },
+      { id: "psy_148", category: "psychiatry", section: "精神神経医学", en: "musical hallucination", ja: "音楽幻聴", years: [] },
+      { id: "psy_149", category: "psychiatry", section: "精神神経医学", en: "Naikan therapy", ja: "内観療法", years: [] },
+      { id: "psy_150", category: "psychiatry", section: "精神神経医学", en: "negativism", ja: "拒絶症", years: [] },
+      { id: "psy_151", category: "psychiatry", section: "精神神経医学", en: "neologism", ja: "言語新作", years: [] },
+      { id: "psy_152", category: "psychiatry", section: "精神神経医学", en: "neurasthenia", ja: "神経衰弱", years: [] },
+      { id: "psy_153", category: "psychiatry", section: "精神神経医学", en: "neurodevelopmental disorders", ja: "神経発達障害群(神経発達症群)", years: [] },
+      { id: "psy_154", category: "psychiatry", section: "精神神経医学", en: "neurodevelopmental hypothesis", ja: "神経発達障害仮説", years: [] },
+      { id: "psy_155", category: "psychiatry", section: "精神神経医学", en: "neuroleptic malignant syndrome", ja: "悪性症候群", years: ["24", "23"] },
+      { id: "psy_156", category: "psychiatry", section: "精神神経医学", en: "neuropsychology", ja: "神経心理学", years: [] },
+      { id: "psy_157", category: "psychiatry", section: "精神神経医学", en: "neurosis", ja: "神経症", years: ["20", "19"] },
+      { id: "psy_158", category: "psychiatry", section: "精神神経医学", en: "neurosyphilis", ja: "神経梅毒", years: [] },
+      { id: "psy_159", category: "psychiatry", section: "精神神経医学", en: "nosology", ja: "疾病分類学", years: [] },
+      { id: "psy_160", category: "psychiatry", section: "精神神経医学", en: "nystagmus", ja: "眼振", years: [] },
+      { id: "psy_161", category: "psychiatry", section: "精神神経医学", en: "obsessive idea", ja: "強迫観念", years: [] },
+      { id: "psy_162", category: "psychiatry", section: "精神神経医学", en: "obsessive-compulsive disorder", ja: "強迫性障害", years: ["24", "23"] },
+      { id: "psy_163", category: "psychiatry", section: "精神神経医学", en: "occupational therapy", ja: "作業療法", years: [] },
+      { id: "psy_164", category: "psychiatry", section: "精神神経医学", en: "operant conditioning", ja: "オペラント条件づけ", years: [] },
+      { id: "psy_165", category: "psychiatry", section: "精神神経医学", en: "opioid", ja: "アヘン類", years: [] },
+      { id: "psy_166", category: "psychiatry", section: "精神神経医学", en: "opistotonus", ja: "後弓反張", years: [] },
+      { id: "psy_167", category: "psychiatry", section: "精神神経医学", en: "oppositional defiant disorder", ja: "反抗挑発性障害", years: [] },
+      { id: "psy_168", category: "psychiatry", section: "精神神経医学", en: "organic mental disorder", ja: "器質性精神障害", years: [] },
+      { id: "psy_169", category: "psychiatry", section: "精神神経医学", en: "organic psychosis", ja: "器質性精神病", years: [] },
+      { id: "psy_170", category: "psychiatry", section: "精神神経医学", en: "orientation", ja: "見当識", years: ["22", "21", "20"] },
+      { id: "psy_171", category: "psychiatry", section: "精神神経医学", en: "outpatient", ja: "外来患者", years: [] },
+      { id: "psy_172", category: "psychiatry", section: "精神神経医学", en: "palliative medicine", ja: "緩和医療", years: [] },
+      { id: "psy_173", category: "psychiatry", section: "精神神経医学", en: "panic disorder", ja: "パニック障害", years: [] },
+      { id: "psy_174", category: "psychiatry", section: "精神神経医学", en: "participant observation", ja: "関与しながらの観察", years: [] },
+      { id: "psy_175", category: "psychiatry", section: "精神神経医学", en: "pervasive developmental disorder", ja: "広汎性発達障害", years: ["21"] },
+      { id: "psy_176", category: "psychiatry", section: "精神神経医学", en: "phantom limb", ja: "幻肢", years: [] },
+      { id: "psy_177", category: "psychiatry", section: "精神神経医学", en: "pica", ja: "異食", years: [] },
+      { id: "psy_178", category: "psychiatry", section: "精神神経医学", en: "Pick disease", ja: "ピック病", years: [] },
+      { id: "psy_179", category: "psychiatry", section: "精神神経医学", en: "primary delusion", ja: "一次妄想", years: [] },
+      { id: "psy_180", category: "psychiatry", section: "精神神経医学", en: "predominantly hyperactive-impulsive presentation", ja: "多動性-衝動性優勢状態", years: [] },
+      { id: "psy_181", category: "psychiatry", section: "精神神経医学", en: "predominantly inattentive presentation", ja: "不注意優勢状態", years: [] },
+      { id: "psy_182", category: "psychiatry", section: "精神神経医学", en: "procedural memory", ja: "手続き記憶", years: [] },
+      { id: "psy_183", category: "psychiatry", section: "精神神経医学", en: "prodrome", ja: "前駆期", years: [] },
+      { id: "psy_184", category: "psychiatry", section: "精神神経医学", en: "psychiatry", ja: "精神医学", years: [] },
+      { id: "psy_185", category: "psychiatry", section: "精神神経医学", en: "psychoanalysis", ja: "精神分析", years: [] },
+      { id: "psy_186", category: "psychiatry", section: "精神神経医学", en: "psychoeducation", ja: "心理教育", years: [] },
+      { id: "psy_187", category: "psychiatry", section: "精神神経医学", en: "psychogenic amnesia", ja: "心因性健忘", years: [] },
+      { id: "psy_188", category: "psychiatry", section: "精神神経医学", en: "psychogenic reaction", ja: "心因反応", years: [] },
+      { id: "psy_189", category: "psychiatry", section: "精神神経医学", en: "psychosis", ja: "精神病", years: [] },
+      { id: "psy_190", category: "psychiatry", section: "精神神経医学", en: "reactive attachment disorder", ja: "反応性愛着障害", years: ["24", "23"] },
+      { id: "psy_191", category: "psychiatry", section: "精神神経医学", en: "recent memory", ja: "近時記憶", years: [] },
+      { id: "psy_192", category: "psychiatry", section: "精神神経医学", en: "reciprocal social interaction", ja: "相互的社会関係行動", years: [] },
+      { id: "psy_193", category: "psychiatry", section: "精神神経医学", en: "refeeding syndrome", ja: "再栄養症候群", years: [] },
+      { id: "psy_194", category: "psychiatry", section: "精神神経医学", en: "remote memory", ja: "遠隔記憶", years: [] },
+      { id: "psy_195", category: "psychiatry", section: "精神神経医学", en: "restless legs syndrome", ja: "下肢静止不能(むずむず脚)症候群", years: ["24", "23", "19"] },
+      { id: "psy_196", category: "psychiatry", section: "精神神経医学", en: "retrograde amnesia", ja: "逆向健忘", years: [] },
+      { id: "psy_197", category: "psychiatry", section: "精神神経医学", en: "Rorschach test", ja: "ロールシャッハテスト", years: [] },
+      { id: "psy_198", category: "psychiatry", section: "精神神経医学", en: "schizo-affective disorder", ja: "統合失調感情障害", years: ["21"] },
+      { id: "psy_199", category: "psychiatry", section: "精神神経医学", en: "schizophrenia", ja: "統合失調症", years: [] },
+      { id: "psy_200", category: "psychiatry", section: "精神神経医学", en: "school non-attendance", ja: "不登校", years: [] },
+      { id: "psy_201", category: "psychiatry", section: "精神神経医学", en: "seasonal depression", ja: "季節うつ病", years: [] },
+      { id: "psy_202", category: "psychiatry", section: "精神神経医学", en: "selective serotonin reuptake inhibitor(SSRI)", ja: "選択的セロトニン再取り込み阻害薬", years: [] },
+      { id: "psy_203", category: "psychiatry", section: "精神神経医学", en: "self-mutation", ja: "自傷", years: [] },
+      { id: "psy_204", category: "psychiatry", section: "精神神経医学", en: "semantic memory", ja: "意味記憶", years: [] },
+      { id: "psy_205", category: "psychiatry", section: "精神神経医学", en: "senile dementia of Alzheimer type", ja: "アルツハイマー型認知症", years: ["19"] },
+      { id: "psy_206", category: "psychiatry", section: "精神神経医学", en: "sensory aphasia", ja: "感覚失語", years: [] },
+      { id: "psy_207", category: "psychiatry", section: "精神神経医学", en: "separation anxiety disorder of childhood", ja: "小児期の分離不安障害", years: [] },
+      { id: "psy_208", category: "psychiatry", section: "精神神経医学", en: "sharp wave", ja: "棘波", years: [] },
+      { id: "psy_209", category: "psychiatry", section: "精神神経医学", en: "slowly progressive aphasia", ja: "緩徐進行性失語", years: [] },
+      { id: "psy_210", category: "psychiatry", section: "精神神経医学", en: "social anxiety disorder", ja: "社交不安障害", years: ["24"] },
+      { id: "psy_211", category: "psychiatry", section: "精神神経医学", en: "social psychiatry", ja: "社会精神医学", years: [] },
+      { id: "psy_212", category: "psychiatry", section: "精神神経医学", en: "social skills training (SST)", ja: "社会生活技能訓練", years: ["24", "23"] },
+      { id: "psy_213", category: "psychiatry", section: "精神神経医学", en: "somatic symptom disorders", ja: "身体症状症", years: [] },
+      { id: "psy_214", category: "psychiatry", section: "精神神経医学", en: "somatoform disorders", ja: "身体表現性障害", years: ["22", "21"] },
+      { id: "psy_215", category: "psychiatry", section: "精神神経医学", en: "specific learning disorder", ja: "限局性学習障害(限局性学習症)", years: [] },
+      { id: "psy_216", category: "psychiatry", section: "精神神経医学", en: "startle reaction", ja: "驚愕反応", years: [] },
+      { id: "psy_217", category: "psychiatry", section: "精神神経医学", en: "stereotypy", ja: "常同症", years: [] },
+      { id: "psy_218", category: "psychiatry", section: "精神神経医学", en: "stigma", ja: "偏見", years: ["24", "23"] },
+      { id: "psy_219", category: "psychiatry", section: "精神神経医学", en: "Substupor 【独】", ja: "亜昏迷", years: [] },
+      { id: "psy_220", category: "psychiatry", section: "精神神経医学", en: "suicide idea", ja: "自殺念慮", years: ["19"] },
+      { id: "psy_221", category: "psychiatry", section: "精神神経医学", en: "supportive psychotherapy", ja: "支持的精神療法", years: ["21"] },
+      { id: "psy_222", category: "psychiatry", section: "精神神経医学", en: "sympathy", ja: "共感", years: ["20"] },
+      { id: "psy_223", category: "psychiatry", section: "精神神経医学", en: "syncope", ja: "失神", years: [] },
+      { id: "psy_224", category: "psychiatry", section: "精神神経医学", en: "temperament", ja: "気質", years: [] },
+      { id: "psy_225", category: "psychiatry", section: "精神神経医学", en: "theory of mind", ja: "心の理論", years: [] },
+      { id: "psy_226", category: "psychiatry", section: "精神神経医学", en: "thought broadcasting", ja: "考想伝播", years: ["24", "23"] },
+      { id: "psy_227", category: "psychiatry", section: "精神神経医学", en: "thought insertion", ja: "考想吹入", years: [] },
+      { id: "psy_228", category: "psychiatry", section: "精神神経医学", en: "thought withdrawal", ja: "考想奪取", years: ["19"] },
+      { id: "psy_229", category: "psychiatry", section: "精神神経医学", en: "tic disorder", ja: "チック障害", years: [] },
+      { id: "psy_230", category: "psychiatry", section: "精神神経医学", en: "transient global amnesia", ja: "一過性全健忘", years: [] },
+      { id: "psy_231", category: "psychiatry", section: "精神神経医学", en: "transient ischemic attack (TIA)", ja: "一過性脳虚血発作", years: [] },
+      { id: "psy_232", category: "psychiatry", section: "精神神経医学", en: "traumatic neurosis", ja: "外傷神経症", years: [] },
+      { id: "psy_233", category: "psychiatry", section: "精神神経医学", en: "twilight state", ja: "もうろう状態", years: [] },
+      { id: "psy_234", category: "psychiatry", section: "精神神経医学", en: "unilateral spatial neglect", ja: "半側空間無視", years: ["20"] },
+      { id: "psy_235", category: "psychiatry", section: "精神神経医学", en: "visible thoughts", ja: "考想可視", years: [] },
+      { id: "psy_236", category: "psychiatry", section: "精神神経医学", en: "visual hallucination", ja: "幻視", years: [] },
+      { id: "psy_237", category: "psychiatry", section: "精神神経医学", en: "vulnerability-stress model", ja: "脆弱性-ストレスモデル", years: [] },
+      { id: "psy_238", category: "psychiatry", section: "精神神経医学", en: "Wechsler Adult Intelligence Scale (WAIS)", ja: "ウェクスラー成人用知能検査", years: [] },
+      { id: "psy_239", category: "psychiatry", section: "精神神経医学", en: "Wechsler Intelligence Scale for Children(WISC)", ja: "ウェクスラー児童用知能検査", years: [] },
+      { id: "psy_240", category: "psychiatry", section: "精神神経医学", en: "Wernicke aphasia", ja: "ウェルニッケ失語", years: [] },
+      { id: "psy_241", category: "psychiatry", section: "精神神経医学", en: "Wernicke encephalopathy", ja: "ウェルニッケ脳症", years: [] },
+      { id: "psy_242", category: "psychiatry", section: "精神神経医学", en: "Wilson disease", ja: "ウィルソン病", years: [] },
+      { id: "psy_243", category: "psychiatry", section: "精神神経医学", en: "Wisconsin Card Sorting Test(WCST)", ja: "ウィスコンシンカード分類テスト", years: [] },
+      { id: "psy_244", category: "psychiatry", section: "精神神経医学", en: "word salad", ja: "言葉のサラダ", years: ["19"] },
+      { id: "psy_245", category: "psychiatry", section: "精神神経医学", en: "working memory", ja: "作動記憶", years: ["20"] }
+    ];
+
+    // --- 状態管理 ---
+    const STORAGE_KEY = "medical_vocab_unified_master_checked_v1";
+    let selectedCourse = "all"; // "all" | "m3" | "psy"
+    let activeList = [];
+    let currentIndex = 0;
+    let isFlipped = false;
+    let isCheckedOnly = false;
+    let isShuffle = false;
+    let isEnToJa = true;
+    let isAutoPlaying = false;
+    let autoPlayTimer = null;
+    let playIntervalSec = 2.5;
+
+    // --- DOM要素 ---
+    const courseTabAll = document.getElementById("courseTabAll");
+    const courseTabM3 = document.getElementById("courseTabM3");
+    const courseTabPsy = document.getElementById("courseTabPsy");
+
+    const filterSelect = document.getElementById("filterSelect");
+    const checkedOnlyBtn = document.getElementById("checkedOnlyBtn");
+    const checkOnlyIcon = document.getElementById("checkOnlyIcon");
+    const shuffleToggleBtn = document.getElementById("shuffleToggleBtn");
+    const shuffleStatusText = document.getElementById("shuffleStatusText");
+    const directionToggleBtn = document.getElementById("directionToggleBtn");
+    const directionText = document.getElementById("directionText");
+    const autoPlayBtn = document.getElementById("autoPlayBtn");
+    const autoPlayIcon = document.getElementById("autoPlayIcon");
+    const autoPlayBtnText = document.getElementById("autoPlayBtnText");
+    const intervalSlider = document.getElementById("intervalSlider");
+    const intervalLabel = document.getElementById("intervalLabel");
+    
+    const counterBadge = document.getElementById("counterBadge");
+    const progressBar = document.getElementById("progressBar");
+    const flashcard = document.getElementById("flashcard");
+    const cardLangFront = document.getElementById("cardLangFront");
+    const cardTextFront = document.getElementById("cardTextFront");
+    const cardLangBack = document.getElementById("cardLangBack");
+    const cardTextBack = document.getElementById("cardTextBack");
+    const sectionBadgeFront = document.getElementById("sectionBadgeFront");
+    const sectionBadgeBack = document.getElementById("sectionBadgeBack");
+    const ttsBtnFront = document.getElementById("ttsBtnFront");
+    const ttsBtnBack = document.getElementById("ttsBtnBack");
+
+    const checkCardBtn = document.getElementById("checkCardBtn");
+    const cardCheckIcon = document.getElementById("cardCheckIcon");
+    const cardCheckText = document.getElementById("cardCheckText");
+
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const resetFlipBtn = document.getElementById("resetFlipBtn");
+    const saveStatusText = document.getElementById("saveStatusText");
+
+    // モーダル要素
+    const listModal = document.getElementById("listModal");
+    const openListModalBtn = document.getElementById("openListModalBtn");
+    const closeListModalBtn = document.getElementById("closeListModalBtn");
+    const modalSearchInput = document.getElementById("modalSearchInput");
+    const modalWordContainer = document.getElementById("modalWordContainer");
+    const modalListCount = document.getElementById("modalListCount");
+
+    // --- 初期化 ---
+    function initApp() {
+      loadSavedChecks();
+      setupCourseTabs();
+      updateSubFilterOptions();
+      updateFilteredList();
+      renderCard();
+      setupEventListeners();
+    }
+
+    // チェック状態の読み込み
+    function loadSavedChecks() {
+      try {
+        // 旧ストレージデータからの移行も考慮
+        let checkedIds = [];
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          checkedIds = JSON.parse(saved);
+        } else {
+          // 旧M3チェックの引き継ぎ
+          const m3Saved = localStorage.getItem("medical_english_vocab_essential_295");
+          if (m3Saved) {
+            const oldM3 = JSON.parse(m3Saved);
+            checkedIds.push(...oldM3.map(n => `m3_${n}`));
+          }
+          // 旧精神科チェックの引き継ぎ
+          const psySaved = localStorage.getItem("toho_psychiatry_vocab_2025_checked");
+          if (psySaved) {
+            const oldPsy = JSON.parse(psySaved);
+            checkedIds.push(...oldPsy.map(n => `psy_${n}`));
+          }
+        }
+        masterWordList.forEach(w => {
+          w.checked = checkedIds.includes(w.id);
+        });
+      } catch (e) {
+        console.warn("Storage access warning", e);
+      }
+    }
+
+    // チェック状態の保存
+    function saveChecks() {
+      try {
+        const checkedIds = masterWordList.filter(w => w.checked).map(w => w.id);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(checkedIds));
+        showSavedIndicator();
+      } catch (e) {
+        console.warn("Could not save checks", e);
+      }
+    }
+
+    function showSavedIndicator() {
+      saveStatusText.textContent = "Saved";
+      saveStatusText.parentElement.classList.add("scale-105");
+      setTimeout(() => {
+        saveStatusText.parentElement.classList.remove("scale-105");
+      }, 300);
+    }
+
+    // コース切り替えタブの設定
+    function setupCourseTabs() {
+      const tabs = [
+        { btn: courseTabAll, course: "all" },
+        { btn: courseTabM3, course: "m3" },
+        { btn: courseTabPsy, course: "psy" }
+      ];
+
+      tabs.forEach(({ btn, course }) => {
+        btn.addEventListener("click", () => {
+          if (selectedCourse === course) return;
+          selectedCourse = course;
+          
+          // タブのアクティブスタイル更新
+          tabs.forEach(t => {
+            if (t.course === selectedCourse) {
+              t.btn.className = "flex-1 py-1.5 rounded-xl text-center transition-all bg-white text-indigo-700 shadow-sm border border-indigo-200";
+            } else {
+              t.btn.className = "flex-1 py-1.5 rounded-xl text-center transition-all text-slate-600 hover:text-indigo-600 hover:bg-white/60";
+            }
+          });
+
+          updateSubFilterOptions();
+          updateFilteredList();
+          renderCard();
+        });
+      });
+    }
+
+    // コースに応じたサブフィルターの選択肢生成
+    function updateSubFilterOptions() {
+      let optionsHTML = "";
+
+      if (selectedCourse === "all") {
+        optionsHTML = `
+          <option value="all">すべての単語 (全540語)</option>
+          <option value="course_m3">M3春 系統別のみ (295語)</option>
+          <option value="course_psy">精神神経医学のみ (245語)</option>
+          <option value="has_years">🔥 過去問出題歴あり</option>
+          <option value="frequent">⭐ 超頻出 (2回以上出題)</option>
+        `;
+      } else if (selectedCourse === "m3") {
+        const m3List = masterWordList.filter(w => w.category === "m3");
+        const sections = Array.from(new Set(m3List.map(w => w.section)));
+        optionsHTML = `<option value="all">すべての領域 (全295語)</option>`;
+        sections.forEach(sec => {
+          const count = m3List.filter(w => w.section === sec).length;
+          optionsHTML += `<option value="sec_${sec}">${sec} (${count}語)</option>`;
+        });
+      } else if (selectedCourse === "psy") {
+        optionsHTML = `
+          <option value="all">すべて (全245語)</option>
+          <option value="has_years">🔥 過去問出題歴あり</option>
+          <option value="frequent">⭐ 超頻出 (2回以上出題)</option>
+          <option value="y24">2024年 出題 ('24)</option>
+          <option value="y23">2023年 出題 ('23)</option>
+          <option value="y22">2022年 出題 ('22)</option>
+          <option value="y21">2021年 出題 ('21)</option>
+          <option value="y20">2020年 出題 ('20)</option>
+          <option value="y19">2019年 出題 ('19)</option>
+        `;
+      }
+
+      filterSelect.innerHTML = optionsHTML;
+    }
+
+    // フィルターの適用
+    function updateFilteredList() {
+      const filterVal = filterSelect.value;
+      let list = [...masterWordList];
+
+      // 1. コース絞り込み
+      if (selectedCourse === "m3") {
+        list = list.filter(w => w.category === "m3");
+      } else if (selectedCourse === "psy") {
+        list = list.filter(w => w.category === "psychiatry");
+      }
+
+      // 2. サブフィルター絞り込み
+      if (filterVal === "course_m3") {
+        list = list.filter(w => w.category === "m3");
+      } else if (filterVal === "course_psy") {
+        list = list.filter(w => w.category === "psychiatry");
+      } else if (filterVal.startsWith("sec_")) {
+        const secName = filterVal.replace("sec_", "");
+        list = list.filter(w => w.section === secName);
+      } else if (filterVal === "has_years") {
+        list = list.filter(w => w.years && w.years.length > 0);
+      } else if (filterVal === "frequent") {
+        list = list.filter(w => w.years && w.years.length >= 2);
+      } else if (filterVal.startsWith("y")) {
+        const targetYear = filterVal.replace("y", "");
+        list = list.filter(w => w.years && w.years.includes(targetYear));
+      }
+
+      // 3. ✓Only 絞り込み
+      if (isCheckedOnly) {
+        list = list.filter(w => w.checked);
+      }
+
+      // 4. シャッフル
+      if (isShuffle) {
+        for (let i = list.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [list[i], list[j]] = [list[j], list[i]];
+        }
+      }
+
+      activeList = list;
+      currentIndex = 0;
+      isFlipped = false;
+      applyFlipState();
+    }
+
+    // カード描画
+    function renderCard() {
+      const total = activeList.length;
+
+      if (total === 0) {
+        counterBadge.textContent = "0 / 0";
+        progressBar.style.width = "0%";
+        cardTextFront.textContent = "該当単語なし";
+        cardTextBack.textContent = "-";
+        sectionBadgeFront.innerHTML = "";
+        sectionBadgeBack.innerHTML = "";
+        updateCheckBtnUI(false);
+        return;
+      }
+
+      if (currentIndex >= total) currentIndex = 0;
+      if (currentIndex < 0) currentIndex = total - 1;
+
+      const word = activeList[currentIndex];
+      counterBadge.textContent = `${currentIndex + 1} / ${total}`;
+      progressBar.style.width = `${((currentIndex + 1) / total) * 100}%`;
+
+      // 日英の向き
+      if (isEnToJa) {
+        cardLangFront.textContent = "英語";
+        cardTextFront.textContent = word.en;
+        cardLangBack.textContent = "日本語";
+        cardTextBack.textContent = word.ja;
+        intervalLabel.textContent = `日本語表示: ${playIntervalSec}秒`;
+      } else {
+        cardLangFront.textContent = "日本語";
+        cardTextFront.textContent = word.ja;
+        cardLangBack.textContent = "英語";
+        cardTextBack.textContent = word.en;
+        intervalLabel.textContent = `英語表示: ${playIntervalSec}秒`;
+      }
+
+      // セクション＆過去問年度バッジの生成
+      const badgeHTML = createCombinedBadges(word);
+      sectionBadgeFront.innerHTML = badgeHTML;
+      sectionBadgeBack.innerHTML = badgeHTML;
+
+      updateCheckBtnUI(word.checked);
+    }
+
+    // 複合バッジHTML生成
+    function createCombinedBadges(word) {
+      let html = `
+        <span class="inline-flex items-center justify-center bg-indigo-50 text-indigo-700 border border-indigo-200/80 text-[11px] sm:text-xs font-bold px-3 py-0.5 rounded-lg shadow-2xs">
+          ${word.category === 'm3' ? 'M3: ' + word.section : '精神神経医学'}
+        </span>
+      `;
+      if (word.years && word.years.length > 0) {
+        word.years.forEach(y => {
+          html += `
+            <span class="inline-flex items-center justify-center bg-[#fee2e2] text-[#991b1b] border border-[#fecaca] text-[11px] sm:text-xs font-bold px-2 py-0.5 rounded-lg shadow-2xs">
+              ’${y} 出題
+            </span>
+          `;
+        });
+      }
+      return html;
+    }
+
+    // チェックボタンUI
+    function updateCheckBtnUI(isChecked) {
+      if (isChecked) {
+        checkCardBtn.className = "w-full rounded-2xl py-3.5 px-4 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 border-2 transition-all shadow-sm border-indigo-200 bg-[#ede9fe] text-[#5b21b6]";
+        cardCheckIcon.innerHTML = `
+          <rect x="3" y="3" width="18" height="18" rx="4" fill="#5b21b6" stroke="#5b21b6" stroke-width="2"/>
+          <path stroke-linecap="round" stroke-linejoin="round" d="M7 12.5l3.5 3.5 6.5-7" stroke="#ffffff" stroke-width="2.5"/>
+        `;
+        cardCheckText.textContent = "分からない単語 (チェック済み)";
+      } else {
+        checkCardBtn.className = "w-full rounded-2xl py-3.5 px-4 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 border-2 transition-all shadow-sm border-slate-200 bg-white text-slate-600 hover:border-slate-300";
+        cardCheckIcon.innerHTML = `<rect x="3" y="3" width="18" height="18" rx="3" ry="3"></rect>`;
+        cardCheckText.textContent = "分からない単語としてチェック";
+      }
+    }
+
+    // カードの反転
+    function toggleFlip() {
+      if (activeList.length === 0) return;
+      isFlipped = !isFlipped;
+      applyFlipState();
+    }
+
+    function applyFlipState() {
+      if (isFlipped) {
+        flashcard.classList.add("rotate-y-180");
+      } else {
+        flashcard.classList.remove("rotate-y-180");
+      }
+    }
+
+    function nextCard() {
+      if (activeList.length === 0) return;
+      currentIndex = (currentIndex + 1) % activeList.length;
+      isFlipped = false;
+      applyFlipState();
+      renderCard();
+    }
+
+    function prevCard() {
+      if (activeList.length === 0) return;
+      currentIndex = (currentIndex - 1 + activeList.length) % activeList.length;
+      isFlipped = false;
+      applyFlipState();
+      renderCard();
+    }
+
+    function toggleCheck() {
+      if (activeList.length === 0) return;
+      const word = activeList[currentIndex];
+      word.checked = !word.checked;
+
+      const target = masterWordList.find(w => w.id === word.id);
+      if (target) target.checked = word.checked;
+
+      saveChecks();
+      updateCheckBtnUI(word.checked);
+
+      if (isCheckedOnly && !word.checked) {
+        updateFilteredList();
+        renderCard();
+      }
+    }
+
+    // 英語発音 (Web Speech API)
+    function speakEnglish(e) {
+      if (e) e.stopPropagation();
+      if (activeList.length === 0) return;
+      const word = activeList[currentIndex];
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterText = word.en.split('/')[0].replace(/【.*?】/g, '').trim();
+        const utter = new SpeechSynthesisUtterance(utterText);
+        utter.lang = 'en-US';
+        utter.rate = 0.9;
+        window.speechSynthesis.speak(utter);
+      }
+    }
+
+    // オートプレイ
+    function toggleAutoPlay() {
+      if (isAutoPlaying) {
+        stopAutoPlay();
+      } else {
+        startAutoPlay();
+      }
+    }
+
+    function startAutoPlay() {
+      if (activeList.length === 0) return;
+      isAutoPlaying = true;
+      autoPlayBtn.className = "bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-300 rounded-xl px-4 py-1.5 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm shrink-0";
+      autoPlayIcon.innerHTML = `<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>`;
+      autoPlayBtnText.textContent = "停止";
+
+      runAutoPlayStep();
+    }
+
+    function stopAutoPlay() {
+      isAutoPlaying = false;
+      if (autoPlayTimer) clearTimeout(autoPlayTimer);
+      autoPlayBtn.className = "bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200/80 rounded-xl px-4 py-1.5 text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm shrink-0";
+      autoPlayIcon.innerHTML = `<path d="M8 5v14l11-7z"/>`;
+      autoPlayBtnText.textContent = "再生";
+    }
+
+    function runAutoPlayStep() {
+      if (!isAutoPlaying) return;
+      const durationMs = playIntervalSec * 1000;
+
+      if (!isFlipped) {
+        autoPlayTimer = setTimeout(() => {
+          if (!isAutoPlaying) return;
+          toggleFlip();
+          runAutoPlayStep();
+        }, durationMs);
+      } else {
+        autoPlayTimer = setTimeout(() => {
+          if (!isAutoPlaying) return;
+          nextCard();
+          runAutoPlayStep();
+        }, durationMs * 0.9);
+      }
+    }
+
+    // 単語一覧モーダル
+    function openListModal() {
+      listModal.classList.remove("hidden");
+      setTimeout(() => listModal.classList.remove("opacity-0"), 10);
+      renderModalList(modalSearchInput.value || "");
+    }
+
+    function closeListModal() {
+      listModal.classList.add("opacity-0");
+      setTimeout(() => listModal.classList.add("hidden"), 200);
+    }
+
+    // 単語一覧の描画
+    function renderModalList(searchQuery) {
+      const q = searchQuery.toLowerCase().trim();
+      
+      // 現在のコース選択に応じたリスト母集団
+      let baseList = masterWordList;
+      if (selectedCourse === "m3") baseList = masterWordList.filter(w => w.category === "m3");
+      if (selectedCourse === "psy") baseList = masterWordList.filter(w => w.category === "psychiatry");
+
+      const filtered = baseList.filter(w => {
+        return w.en.toLowerCase().includes(q) || 
+               w.ja.includes(q) || 
+               w.section.includes(q) ||
+               (w.years && w.years.some(y => y.includes(q)));
+      });
+
+      modalListCount.textContent = `${filtered.length}語`;
+      modalWordContainer.innerHTML = filtered.map(w => {
+        const isChecked = !!w.checked;
+        const yearTags = (w.years && w.years.length > 0)
+          ? w.years.map(y => `<span class="bg-[#fee2e2] text-[#991b1b] text-[10px] font-bold px-1.5 py-0.2 rounded border border-[#fecaca]">’${y} 出題</span>`).join(" ")
+          : "";
+
+        return `
+          <div class="py-3 px-2.5 flex items-center justify-between hover:bg-slate-50 rounded-2xl transition-colors group">
+            <div class="flex-1 pr-3 cursor-pointer" onclick="jumpToWord('${w.id}')">
+              <div class="flex items-center gap-1.5 flex-wrap mb-1">
+                <span class="font-medium text-slate-900 text-sm sm:text-base group-hover:text-indigo-600 transition-colors leading-snug">${w.en}</span>
+                <span class="bg-indigo-50 text-indigo-700 text-[11px] font-semibold px-2 py-0.5 rounded-md border border-indigo-100">${w.category === 'm3' ? w.section : '精神神経医学'}</span>
+                ${yearTags}
+              </div>
+              <div class="text-slate-600 font-normal text-sm sm:text-[15px] leading-snug">${w.ja}</div>
+            </div>
+
+            <!-- リストから直接切り替え可能なチェックボタン -->
+            <button 
+              type="button"
+              onclick="toggleWordCheckFromModal('${w.id}', event)"
+              class="w-9 h-9 rounded-xl flex items-center justify-center transition-all shrink-0 active:scale-95 ${isChecked ? 'bg-[#ede9fe] text-[#5b21b6] border border-indigo-200' : 'bg-slate-50 text-slate-400 hover:bg-slate-100 border border-slate-200'}"
+              title="${isChecked ? 'チェックを解除' : 'チェックを付ける'}"
+            >
+              ${isChecked ? `
+                <svg class="w-5 h-5 text-[#5b21b6]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              ` : `
+                <span class="text-sm text-slate-400">☐</span>
+              `}
+            </button>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // モーダルリストから直接チェックを切り替える関数
+    window.toggleWordCheckFromModal = function(wordId, event) {
+      if (event) event.stopPropagation();
+
+      const target = masterWordList.find(w => w.id === wordId);
+      if (!target) return;
+
+      target.checked = !target.checked;
+      saveChecks();
+
+      // 現在表示中のカードがこの単語であればカードUIも即時同期
+      if (activeList.length > 0 && activeList[currentIndex] && activeList[currentIndex].id === wordId) {
+        updateCheckBtnUI(target.checked);
+      }
+
+      // ✓Onlyモードの場合はアクティブリストを再計算
+      if (isCheckedOnly) {
+        updateFilteredList();
+        renderCard();
+      }
+
+      // リストのチェック表示を再描画
+      renderModalList(modalSearchInput.value || "");
+    };
+
+    window.jumpToWord = function(wordId) {
+      const idx = activeList.findIndex(w => w.id === wordId);
+      if (idx !== -1) {
+        currentIndex = idx;
+      } else {
+        // 現在のフィルターで該当しない場合は総合コース・全件表示に戻す
+        selectedCourse = "all";
+        [courseTabAll, courseTabM3, courseTabPsy].forEach(t => {
+          t.className = (t === courseTabAll) 
+            ? "flex-1 py-1.5 rounded-xl text-center transition-all bg-white text-indigo-700 shadow-sm border border-indigo-200"
+            : "flex-1 py-1.5 rounded-xl text-center transition-all text-slate-600 hover:text-indigo-600 hover:bg-white/60";
+        });
+        updateSubFilterOptions();
+        filterSelect.value = "all";
+        isCheckedOnly = false;
+        checkedOnlyBtn.className = "col-span-3 h-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 rounded-xl px-1.5 py-2 text-xs font-bold flex items-center justify-center gap-1 shadow-sm transition-all";
+        checkOnlyIcon.textContent = "☐";
+        updateFilteredList();
+        currentIndex = activeList.findIndex(w => w.id === wordId);
+      }
+      isFlipped = false;
+      applyFlipState();
+      renderCard();
+      closeListModal();
+    };
+
+    // イベント登録
+    function setupEventListeners() {
+      flashcard.addEventListener("click", toggleFlip);
+      nextBtn.addEventListener("click", nextCard);
+      prevBtn.addEventListener("click", prevCard);
+      resetFlipBtn.addEventListener("click", () => {
+        isFlipped = false;
+        applyFlipState();
+      });
+
+      checkCardBtn.addEventListener("click", toggleCheck);
+      ttsBtnFront.addEventListener("click", speakEnglish);
+      ttsBtnBack.addEventListener("click", speakEnglish);
+
+      filterSelect.addEventListener("change", () => {
+        updateFilteredList();
+        renderCard();
+      });
+
+      checkedOnlyBtn.addEventListener("click", () => {
+        isCheckedOnly = !isCheckedOnly;
+        if (isCheckedOnly) {
+          checkedOnlyBtn.className = "col-span-3 h-full border border-indigo-300 bg-[#ede9fe] text-[#5b21b6] rounded-xl px-1.5 py-2 text-xs font-bold flex items-center justify-center gap-1 shadow-sm transition-all";
+          checkOnlyIcon.textContent = "☑";
+        } else {
+          checkedOnlyBtn.className = "col-span-3 h-full border border-slate-200 bg-white hover:bg-slate-50 text-slate-600 rounded-xl px-1.5 py-2 text-xs font-bold flex items-center justify-center gap-1 shadow-sm transition-all";
+          checkOnlyIcon.textContent = "☐";
+        }
+        updateFilteredList();
+        renderCard();
+      });
+
+      shuffleToggleBtn.addEventListener("click", () => {
+        isShuffle = !isShuffle;
+        if (isShuffle) {
+          shuffleStatusText.textContent = "ON";
+          shuffleToggleBtn.classList.add("text-indigo-600", "border-indigo-200", "bg-indigo-50/50");
+        } else {
+          shuffleStatusText.textContent = "OFF";
+          shuffleToggleBtn.classList.remove("text-indigo-600", "border-indigo-200", "bg-indigo-50/50");
+        }
+        updateFilteredList();
+        renderCard();
+      });
+
+      directionToggleBtn.addEventListener("click", () => {
+        isEnToJa = !isEnToJa;
+        directionText.textContent = isEnToJa ? "英 → 日" : "日 → 英";
+        isFlipped = false;
+        applyFlipState();
+        renderCard();
+      });
+
+      intervalSlider.addEventListener("input", (e) => {
+        playIntervalSec = parseFloat(e.target.value);
+        intervalLabel.textContent = `${isEnToJa ? "日本語" : "英語"}表示: ${playIntervalSec}秒`;
+      });
+
+      autoPlayBtn.addEventListener("click", toggleAutoPlay);
+
+      openListModalBtn.addEventListener("click", openListModal);
+      closeListModalBtn.addEventListener("click", closeListModal);
+      modalSearchInput.addEventListener("input", (e) => renderModalList(e.target.value));
+
+      window.addEventListener("keydown", (e) => {
+        if (e.target.tagName === "INPUT" || e.target.tagName === "SELECT") return;
+        if (e.key === "ArrowRight") nextCard();
+        if (e.key === "ArrowLeft") prevCard();
+        if (e.key === " ") {
+          e.preventDefault();
+          toggleFlip();
+        }
+        if (e.key === "ArrowUp") {
+          e.preventDefault();
+          toggleCheck();
+        }
+        if (e.key === "s" || e.key === "S") {
+          speakEnglish();
+        }
+      });
+    }
+
+    window.addEventListener("DOMContentLoaded", initApp);
+  </script>
+</body>
+</html>
